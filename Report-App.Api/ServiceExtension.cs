@@ -6,6 +6,9 @@ using ReportApp.BLL.ServicesContract;
 using ReportApp.DAL;
 using System.Reflection;
 using AutoMapper;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
 
 namespace Report_App.Api
 {
@@ -39,11 +42,36 @@ namespace Report_App.Api
             services.AddTransient<IAuthenticationService, AuthenticationService>();
         }
 
-        public static void ConfigureMapper(this IServiceCollection services)
+        public static void ConfigureJWT(this IServiceCollection services, IConfiguration config)
         {
-            //services.a
-            //services.AddAutoMapper(typeof(MappingProfile));
-            //services.AddAutoMapper(Assembly.Load("Report_App.Api"));
+            //save your secret keys in an environment variable rather than in code
+            //using the statememnt below.
+            //open the cmd window as an administrator
+            //This is going to create a system environment variable
+            //setx REPORTAPISECRET "ReportAPISecretKey" /M
+            var jwtSettings = config.GetSection("JwtSettings");
+            var secretKey = Environment.GetEnvironmentVariable("REPORTAPISECRET")?? "Fk24632Pz3gyJLYeYqJ6D8qELyNPUubr8vstypCgfMAC8Jyb3B";
+
+            services.AddAuthentication(opt =>
+            {
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(opts =>
+                {
+                    opts.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = jwtSettings["validIssuer"],
+                        ValidAudience = jwtSettings["validAudience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+                    };
+                });
+
+
         }
 
     }

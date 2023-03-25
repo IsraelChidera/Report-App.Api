@@ -12,10 +12,9 @@ namespace Report_App.Api
             builder.Services.ConfigureSqlContext(builder.Configuration);
             builder.Services.AddAuthentication();
             builder.Services.ConfigureIdentity();
-
             builder.Services.ConfigureServices();
             builder.Services.AddAutoMapper(Assembly.Load("ReportApp.BLL"));
-
+            builder.Services.ConfigureJWT(builder.Configuration);
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

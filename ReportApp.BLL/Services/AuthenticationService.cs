@@ -20,6 +20,10 @@ namespace ReportApp.BLL.Services
             _mapper = mapper;
         }
 
+        public Task<string> CreateToken()
+        {
+            throw new NotImplementedException();
+        }
 
         public async Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistration)
         {
@@ -38,6 +42,11 @@ namespace ReportApp.BLL.Services
             }
 
             return result;
+        }
+
+        public Task<bool> ValidateUser(UserForAuthenticationDto userForAuth)
+        {
+            throw new NotImplementedException();
         }
 
     }
