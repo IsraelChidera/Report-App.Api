@@ -34,5 +34,15 @@ namespace Report_App.Api.Controllers
 
         }
 
+        [HttpPost("login")]
+        public async Task<IActionResult> Authenticate([FromBody] UserForAuthenticationDto user)
+        {
+            if (!await _authenticationService.ValidateUser(user))
+            {
+                return Unauthorized();
+            }
+
+            return Ok(new { Token = await _authenticationService.CreateToken() });
+        }
     }
 }
