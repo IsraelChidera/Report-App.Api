@@ -7,8 +7,7 @@ using System.Security.Claims;
 namespace Report_App.Api.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
-    [Authorize(Policy = "SuperAdminPolicy")]
+    [ApiController]    
     public class AuthenticationController : ControllerBase
     {
         private readonly IAuthenticationService _authenticationService;

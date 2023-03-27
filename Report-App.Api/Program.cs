@@ -19,7 +19,13 @@ namespace Report_App.Api
             builder.Services.ConfigureServices();
             builder.Services.AddAutoMapper(Assembly.Load("ReportApp.BLL"));
             builder.Services.ConfigureJWT(builder.Configuration);
-            
+            //grants super admin access to all routes
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("SuperAdminPolicy", policy =>
+                    policy.RequireRole("SuperAdmin"));
+            });
+
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -54,12 +60,7 @@ namespace Report_App.Api
                 await roleManager.CreateAsync(new IdentityRole("SuperAdmin"));
             }
 
-            //grants super admin access to all routes
-            builder.Services.AddAuthorization(options =>
-            {
-                options.AddPolicy("SuperAdminPolicy", policy =>
-                    policy.RequireRole("SuperAdmin"));
-            });
+           
 
             // Create the SuperAdmin user with the role
             var superAdmin = new AppUsers
@@ -73,8 +74,9 @@ namespace Report_App.Api
             {
                 await userManager.AddToRoleAsync(superAdmin, "SuperAdmin");
 
-                await app.RunAsync();
+                
             }
+            await app.RunAsync();
 
         }
     }
