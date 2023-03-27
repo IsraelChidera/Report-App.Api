@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ReportApp.DAL.Entities
+namespace ReportApp.DAL.Configuration
 {
     public class RoleConfiguration : IEntityTypeConfiguration<IdentityRole>
     {

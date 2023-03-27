@@ -12,8 +12,8 @@ using ReportApp.DAL;
 namespace ReportApp.DAL.Migrations
 {
     [DbContext(typeof(ReportDbContext))]
-    [Migration("20230325093407_ConfigureForAuth")]
-    partial class ConfigureForAuth
+    [Migration("20230327005718_SuperAdminSeededData")]
+    partial class SuperAdminSeededData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,22 +53,22 @@ namespace ReportApp.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f104dd8d-e883-4e82-bf28-6a2b3bc87b62",
-                            ConcurrencyStamp = "a95ed7df-abbb-4c58-9530-85b13d70b930",
+                            Id = "e4eef85f-80d1-4e3a-9e43-91dc674f009e",
+                            ConcurrencyStamp = "92da7b66-59c9-4637-95cb-0cc43ed60593",
                             Name = "Vendor",
                             NormalizedName = "VENDOR"
                         },
                         new
                         {
-                            Id = "5ddad865-cd3a-4bee-8d01-60486d71a225",
-                            ConcurrencyStamp = "5f58cc62-3ff0-41bf-ab11-9183e737f7c1",
+                            Id = "56254f6a-7646-4cf0-a0b7-485d9e355308",
+                            ConcurrencyStamp = "be90b393-543a-4b6e-ae99-3000500f8504",
                             Name = "Seller",
                             NormalizedName = "SELLER"
                         },
                         new
                         {
-                            Id = "8976ed67-0cc1-418d-b3b8-29abdc1894df",
-                            ConcurrencyStamp = "e310735d-8c55-4fea-8b51-bc68c0a54e57",
+                            Id = "a2b90f6c-3d1d-4281-b234-459147f3ce1c",
+                            ConcurrencyStamp = "4d3616ac-d06a-47a1-99c7-224523ecc656",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });

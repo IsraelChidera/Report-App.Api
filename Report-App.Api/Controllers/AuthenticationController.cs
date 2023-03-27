@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ReportApp.BLL.ServicesContract;
 using ReportApp.Infrastructure.Dtos;
+using System.Security.Claims;
 
 namespace Report_App.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Policy = "SuperAdminPolicy")]
     public class AuthenticationController : ControllerBase
     {
         private readonly IAuthenticationService _authenticationService;
@@ -41,6 +44,11 @@ namespace Report_App.Api.Controllers
             {
                 return Unauthorized();
             }
+
+            /*var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Role, "SuperAdmin")
+            };*/
 
             return Ok(new { Token = await _authenticationService.CreateToken() });
         }

@@ -9,11 +9,13 @@ using AutoMapper;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Report_App.Api
+namespace Report_App.Api.Extensions
 {
     public static class ServiceExtension
     {
+
         public static void ConfigureIdentity(this IServiceCollection services)
         {
             var builder = services.AddIdentity<AppUsers, IdentityRole>(opt =>
@@ -27,6 +29,14 @@ namespace Report_App.Api
             })
             .AddEntityFrameworkStores<ReportDbContext>()
             .AddDefaultTokenProviders();
+
+            /*RoleManager<IdentityRole> roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+            bool roleExists = await roleManager.RoleExistsAsync("SuperAdmin");
+
+            if (!roleExists)
+            {
+                await roleManager.CreateAsync(new IdentityRole("SuperAdmin"));
+            }*/
         }
 
         public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration)
@@ -50,7 +60,7 @@ namespace Report_App.Api
             //This is going to create a system environment variable
             //setx REPORTAPISECRET "ReportAPISecretKey" /M
             var jwtSettings = config.GetSection("JwtSettings");
-            var secretKey = Environment.GetEnvironmentVariable("REPORTAPISECRET")?? "Fk24632Pz3gyJLYeYqJ6D8qELyNPUubr8vstypCgfMAC8Jyb3B";
+            var secretKey = Environment.GetEnvironmentVariable("REPORTAPISECRET") ?? "Fk24632Pz3gyJLYeYqJ6D8qELyNPUubr8vstypCgfMAC8Jyb3B";
 
             services.AddAuthentication(opt =>
             {

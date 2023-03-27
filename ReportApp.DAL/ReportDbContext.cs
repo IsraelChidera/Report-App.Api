@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ReportApp.BLL.Entities;
-using ReportApp.DAL.Entities;
+using ReportApp.DAL.Configuration;
 
 namespace ReportApp.DAL
 {
