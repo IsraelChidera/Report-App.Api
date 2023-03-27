@@ -14,6 +14,10 @@ namespace ReportApp.BLL.MappingProfile
         public MappingProfile()
         {
             CreateMap<UserForRegistrationDto, AppUsers>();
+
+            CreateMap<VendorForRegistration, AppUsers>();
+
+            CreateMap<SellerForRegistration, AppUsers>();
         }
     }
 }

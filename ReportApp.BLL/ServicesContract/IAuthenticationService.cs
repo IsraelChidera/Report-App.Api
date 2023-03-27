@@ -14,6 +14,10 @@ namespace ReportApp.BLL.ServicesContract
 
         Task<bool> ValidateUser(UserForAuthenticationDto userForAuth);
 
+        Task<IdentityResult> RegisterSeller(SellerForRegistration sellerForRegistration);
+
+        Task<IdentityResult> RegisterVendor(VendorForRegistration vendorForRegistration);
+
         Task<string> CreateToken();
     }
 }

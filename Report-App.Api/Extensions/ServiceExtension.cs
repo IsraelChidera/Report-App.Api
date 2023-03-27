@@ -29,14 +29,7 @@ namespace Report_App.Api.Extensions
             })
             .AddEntityFrameworkStores<ReportDbContext>()
             .AddDefaultTokenProviders();
-
-            /*RoleManager<IdentityRole> roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-            bool roleExists = await roleManager.RoleExistsAsync("SuperAdmin");
-
-            if (!roleExists)
-            {
-                await roleManager.CreateAsync(new IdentityRole("SuperAdmin"));
-            }*/
+           
         }
 
         public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration)

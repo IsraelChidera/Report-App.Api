@@ -26,22 +26,7 @@ namespace ReportApp.BLL.Services
         }
 
         public async Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistration)
-        {
-           /* var superAdmin = new AppUsers
-            {
-                UserName = "IsraelChidera",
-                Email = "chiderahub@gmail.com",
-                EmailConfirmed = true,
-                PasswordHash = "Chidera@2023"
-            };
-
-            var superAdminSeedResult = await _userManager.CreateAsync(superAdmin, superAdmin.PasswordHash);
-
-            if (superAdminSeedResult.Succeeded)
-            {
-                await _userManager.AddToRoleAsync(superAdmin, superAdmin.);
-            }*/
-            //
+        {          
 
             var userExists = await _userManager.FindByEmailAsync(userForRegistration.Email);
 
@@ -60,6 +45,47 @@ namespace ReportApp.BLL.Services
             return result;
         }
 
+        public async Task<IdentityResult> RegisterVendor(VendorForRegistration vendorForRegistration)
+        {
+            var userExists = await _userManager.FindByEmailAsync(vendorForRegistration.Email);
+
+            if (userExists != null)
+            {
+                throw new Exception("Email has been taken");
+            }
+
+            var vendorResult = _mapper.Map<AppUsers>(vendorForRegistration);
+
+            var vendor = await _userManager.CreateAsync(vendorResult, vendorForRegistration.Password);
+
+            if (vendor.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(vendorResult, "Vendor");
+            }
+
+            return vendor;
+        }
+
+        public async Task<IdentityResult> RegisterSeller(SellerForRegistration sellerForRegistration)
+        {
+            var userExists = await _userManager.FindByEmailAsync(sellerForRegistration.Email);
+
+            if(userExists != null)
+            {
+                throw new Exception("Email is already taken");
+            }
+
+            var sellerResult = _mapper.Map<AppUsers>(sellerForRegistration);
+
+            var seller = await _userManager.CreateAsync(sellerResult, sellerForRegistration.Password);
+            if (seller.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(sellerResult, "Seller");
+            }
+
+            return seller;
+        }
+        
         public async Task<bool> ValidateUser(UserForAuthenticationDto userForAuth)
         {
             

@@ -18,6 +18,7 @@ namespace Report_App.Api.Controllers
         }
 
         [HttpPost]
+        //[Authorize(Policy = "SuperAdminPolicy")]
         public async Task<IActionResult> Create([FromBody] UserForRegistrationDto userForRegistration)
         {
 
@@ -36,7 +37,46 @@ namespace Report_App.Api.Controllers
 
         }
 
+        [HttpPost]
+        [Route("register/vendor")]
+        public async Task<IActionResult> CreateVendor([FromBody] VendorForRegistration vendorForRegistration)
+        {
+            var result = await _authenticationService.RegisterVendor(vendorForRegistration);
+
+            if(!result.Succeeded)
+            {
+                foreach(var error in result.Errors)
+                {
+                    ModelState.TryAddModelError(error.Code, error.Description);
+                }
+
+                return BadRequest(ModelState);
+            }
+
+            return StatusCode(201);            
+        }
+
+        [HttpPost]
+        [Route("register/seller")]
+        public async Task<IActionResult> CreateSeller([FromBody] SellerForRegistration sellerForRegistration)
+        {
+            var result = await _authenticationService.RegisterSeller(sellerForRegistration);
+
+            if (!result.Succeeded)
+            {
+                foreach(var error in result.Errors)
+                {
+                    ModelState.TryAddModelError(error.Code, error.Description);
+                }
+
+                return BadRequest(ModelState);
+            }
+
+            return StatusCode(201);
+        }
+        
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<IActionResult> Authenticate([FromBody] UserForAuthenticationDto user)
         {
             if (!await _authenticationService.ValidateUser(user))
