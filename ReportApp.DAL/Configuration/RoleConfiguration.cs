@@ -17,8 +17,8 @@ namespace ReportApp.DAL.Configuration
 
                new IdentityRole
                {
-                   Name = "Seller",
-                   NormalizedName = "SELLER",
+                   Name = "Customer",
+                   NormalizedName = "CUSTOMER",
                },
 
                new IdentityRole

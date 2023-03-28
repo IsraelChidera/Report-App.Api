@@ -57,10 +57,10 @@ namespace Report_App.Api.Controllers
         }
 
         [HttpPost]
-        [Route("register/seller")]
-        public async Task<IActionResult> CreateSeller([FromBody] SellerForRegistration sellerForRegistration)
+        [Route("register/customer")]
+        public async Task<IActionResult> CreateCustomer([FromBody] CustomerForRegistration sellerForRegistration)
         {
-            var result = await _authenticationService.RegisterSeller(sellerForRegistration);
+            var result = await _authenticationService.RegisterCustomer(sellerForRegistration);
 
             if (!result.Succeeded)
             {

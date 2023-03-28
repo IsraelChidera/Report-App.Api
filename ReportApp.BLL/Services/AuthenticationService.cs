@@ -66,7 +66,7 @@ namespace ReportApp.BLL.Services
             return vendor;
         }
 
-        public async Task<IdentityResult> RegisterSeller(SellerForRegistration sellerForRegistration)
+        public async Task<IdentityResult> RegisterCustomer(CustomerForRegistration sellerForRegistration)
         {
             var userExists = await _userManager.FindByEmailAsync(sellerForRegistration.Email);
 
@@ -96,7 +96,7 @@ namespace ReportApp.BLL.Services
 
             if (!result)
             {
-                throw new Exception("Invalid");
+                throw new Exception("Invalid email or password");
             }
 
             return result;

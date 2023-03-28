@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ReportApp.Infrastructure.Dtos
 {
-    public record SellerForRegistration
+    public record CustomerForRegistration
     {
         public string? FirstName { get; init; }
 

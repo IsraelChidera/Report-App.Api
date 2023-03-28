@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ReportApp.DAL.Migrations
 {
-    public partial class SuperAdminSeededData : Migration
+    public partial class ReInitialisingDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -157,17 +157,17 @@ namespace ReportApp.DAL.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "56254f6a-7646-4cf0-a0b7-485d9e355308", "be90b393-543a-4b6e-ae99-3000500f8504", "Seller", "SELLER" });
+                values: new object[] { "c94285c4-7223-4fbd-ac17-91da13191606", "f2444050-8702-4a8f-90b3-2726366e7f55", "Customer", "CUSTOMER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "a2b90f6c-3d1d-4281-b234-459147f3ce1c", "4d3616ac-d06a-47a1-99c7-224523ecc656", "Admin", "ADMIN" });
+                values: new object[] { "d4476f31-4db1-486b-a7c2-d85a24538d8a", "6aeee69e-8027-4630-8357-b55acff28e83", "Vendor", "VENDOR" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "e4eef85f-80d1-4e3a-9e43-91dc674f009e", "92da7b66-59c9-4637-95cb-0cc43ed60593", "Vendor", "VENDOR" });
+                values: new object[] { "d97ff8e4-cc12-40b4-b04e-d33f1273632a", "1d816113-e76c-4995-bcec-4f1b5dfaf798", "Admin", "ADMIN" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
