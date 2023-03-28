@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ReportApp.BLL.Entities;
 using ReportApp.DAL.Configuration;
+using ReportApp.DAL.Entities;
 
 namespace ReportApp.DAL
 {
@@ -17,6 +18,10 @@ namespace ReportApp.DAL
 
             builder.ApplyConfiguration(new RoleConfiguration());
         }
+
+        public DbSet<Vendor> vendors { get; set; }
+        public DbSet<Customer> customers { get; set; }
+        public DbSet<Admin> admins { get; set; }
 
     }
 }

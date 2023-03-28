@@ -1,15 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using ReportApp.BLL.Entities;
 using ReportApp.BLL.Services;
 using ReportApp.BLL.ServicesContract;
 using ReportApp.DAL;
-using System.Reflection;
-using AutoMapper;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Report_App.Api.Extensions
 {
@@ -29,7 +26,7 @@ namespace Report_App.Api.Extensions
             })
             .AddEntityFrameworkStores<ReportDbContext>()
             .AddDefaultTokenProviders();
-           
+
         }
 
         public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration)

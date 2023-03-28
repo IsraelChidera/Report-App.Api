@@ -27,7 +27,7 @@ namespace ReportApp.DAL.Repository
         }
 
         public int SaveChanges()
-        {
+        {   
             return _context.SaveChanges();
         }
 
