@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ReportApp.BLL.Entities;
 using ReportApp.DAL.Configuration;
 using ReportApp.DAL.Entities;
-
+using ReportApp.DAL.Configuration;
 namespace ReportApp.DAL
 {
     public class ReportDbContext : IdentityDbContext<AppUsers>
@@ -16,6 +16,18 @@ namespace ReportApp.DAL
         {
             base.OnModelCreating(builder);
 
+            builder.Entity<Report>()
+                .Property(e => e.CustomerId)
+                .IsRequired(false);
+
+            builder.Entity<Report>()
+               .Property(e => e.VendorId)
+               .IsRequired(false);
+
+            builder.ApplyConfiguration(new CustomerConfiguration());
+            builder.ApplyConfiguration(new VendorConfiguration());
+            builder.ApplyConfiguration(new AdminConfiguration());
+            builder.ApplyConfiguration(new ReportConfiguration());
             builder.ApplyConfiguration(new RoleConfiguration());
         }
 

@@ -24,7 +24,7 @@ namespace ReportApp.DAL.Entities
         [MinLength(9, ErrorMessage = "Name should be more than 9 characters")]
         public string Phone { get; set; }
 
-        public IEnumerable<Report>? Reports { get; set; }
+        public IList<Report>? Reports { get; set; }
         
     }
 }

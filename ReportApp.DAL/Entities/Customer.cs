@@ -25,6 +25,6 @@ namespace ReportApp.DAL.Entities
         public string Phone { get; set; }
 
 
-        public IEnumerable<Report>? Reports { get; set; }
+        public IList<Report>? Reports { get; set; }
     }
 }
