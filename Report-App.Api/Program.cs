@@ -13,6 +13,8 @@ namespace Report_App.Api
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            //builder.Services.ConfigureCors();
+            //builder.Services.ConfigureIISIntegration();
             builder.Services.ConfigureSqlContext(builder.Configuration);
             builder.Services.AddAuthentication();
             builder.Services.ConfigureIdentity();

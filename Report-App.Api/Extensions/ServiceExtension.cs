@@ -6,6 +6,7 @@ using ReportApp.BLL.Entities;
 using ReportApp.BLL.Services;
 using ReportApp.BLL.ServicesContract;
 using ReportApp.DAL;
+using ReportApp.DAL.Repository;
 using System.Text;
 
 namespace Report_App.Api.Extensions
@@ -38,9 +39,29 @@ namespace Report_App.Api.Extensions
 
         public static void ConfigureServices(this IServiceCollection services)
         {
-
+            services.AddTransient<IUnitOfWork, UnitOfWork<ReportDbContext>>();
             services.AddTransient<IAuthenticationService, AuthenticationService>();
+            services.AddTransient<IVendorService, VendorService>();
+            services.AddTransient<IReportService, ReportService>();
         }
+
+        public static void ConfigureCors(this IServiceCollection services)
+        {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder =>
+                builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+            });
+        }
+
+        public static void ConfigureIISIntegration(this IServiceCollection services) =>
+        services.Configure<IISOptions>(options =>
+        {
+
+        });
+
 
         public static void ConfigureJWT(this IServiceCollection services, IConfiguration config)
         {
