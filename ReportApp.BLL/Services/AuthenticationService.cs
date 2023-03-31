@@ -25,6 +25,7 @@ namespace ReportApp.BLL.Services
             _mapper = mapper;
         }
 
+
         public async Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistration)
         {          
 
@@ -80,7 +81,7 @@ namespace ReportApp.BLL.Services
             var seller = await _userManager.CreateAsync(sellerResult, sellerForRegistration.Password);
             if (seller.Succeeded)
             {
-                await _userManager.AddToRoleAsync(sellerResult, "Seller");
+                await _userManager.AddToRoleAsync(sellerResult, "Customer");
             }
 
             return seller;

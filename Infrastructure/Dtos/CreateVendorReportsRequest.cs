@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ReportApp.Infrastructure.Dtos
 {
-    public class ReportDto
+    public class CreateVendorReportsRequest
     {
         public string Location { get; set; }
         public string HazardDescription { get; set; }
@@ -16,5 +16,7 @@ namespace ReportApp.Infrastructure.Dtos
         public string PreventiveMeasure { get; set; }
         public string HazardRating { get; set; }
         public string AdditionalInfo { get; set; }
+        public Guid VendorId { get; set; }
+        public string ReportId { get; set; }
     }
 }

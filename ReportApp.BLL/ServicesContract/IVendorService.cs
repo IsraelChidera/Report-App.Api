@@ -10,8 +10,9 @@ namespace ReportApp.BLL.ServicesContract
 {
     public interface IVendorService
     {       
-        IEnumerable<Vendor> GetAllVendors();
+        Task<IEnumerable<Vendor>> GetAllVendors();
         Task<IEnumerable<VendorsWithReportsDto>> GetVendorsWithReportsAsync();
-
+        Task<Vendor> GetVendorById(Guid vendorId);
+        Task<ReportDto> CreateVendorReport(CreateVendorReportsRequest request);
     }
 }

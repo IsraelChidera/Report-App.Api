@@ -2,12 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using ReportApp.BLL.ServicesContract;
 using ReportApp.Infrastructure.Dtos;
-using System.Security.Claims;
 
 namespace Report_App.Api.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]    
+    [ApiController]
     public class AuthenticationController : ControllerBase
     {
         private readonly IAuthenticationService _authenticationService;
@@ -16,6 +15,7 @@ namespace Report_App.Api.Controllers
         {
             _authenticationService = authenticationService;
         }
+
 
         [HttpPost]
         //[Authorize(Policy = "SuperAdminPolicy")]
@@ -43,9 +43,9 @@ namespace Report_App.Api.Controllers
         {
             var result = await _authenticationService.RegisterVendor(vendorForRegistration);
 
-            if(!result.Succeeded)
+            if (!result.Succeeded)
             {
-                foreach(var error in result.Errors)
+                foreach (var error in result.Errors)
                 {
                     ModelState.TryAddModelError(error.Code, error.Description);
                 }
@@ -53,7 +53,7 @@ namespace Report_App.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            return StatusCode(201);            
+            return StatusCode(201);
         }
 
         [HttpPost]
@@ -64,7 +64,7 @@ namespace Report_App.Api.Controllers
 
             if (!result.Succeeded)
             {
-                foreach(var error in result.Errors)
+                foreach (var error in result.Errors)
                 {
                     ModelState.TryAddModelError(error.Code, error.Description);
                 }
@@ -74,7 +74,7 @@ namespace Report_App.Api.Controllers
 
             return StatusCode(201);
         }
-        
+
         [HttpPost("login")]
         [AllowAnonymous]
         public async Task<IActionResult> Authenticate([FromBody] UserForAuthenticationDto user)
@@ -91,5 +91,6 @@ namespace Report_App.Api.Controllers
 
             return Ok(new { Token = await _authenticationService.CreateToken() });
         }
+
     }
 }

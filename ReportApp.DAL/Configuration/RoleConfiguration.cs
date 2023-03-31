@@ -27,5 +27,6 @@ namespace ReportApp.DAL.Configuration
                    NormalizedName = "ADMIN",
                });
         }
+    
     }
 }
