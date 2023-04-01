@@ -25,6 +25,7 @@ namespace ReportApp.BLL.Services
         {
             _unitOfWork= unitOfWork;
             _vendorRepo = _unitOfWork.GetRepository<Vendor>();
+            _reportRepo = _unitOfWork.GetRepository<Report>();
             _vendor = vendor;
             _mapper = mapper;
         }
@@ -48,6 +49,38 @@ namespace ReportApp.BLL.Services
             return toReturn;
         }
 
+        public async Task DeleteVendorReportAsync(Guid vendorId, Guid reportId)
+        {
+            var vendor = await _vendorRepo.GetSingleByAsync(v => v.Id == vendorId,
+                include: v=>v.Include(r=>r.Reports), tracking: true);
+
+            if(vendor is null)
+            {
+                throw new Exception("Vendor is not found");
+            }
+
+            var report = vendor?.Reports?.FirstOrDefault(r => r.Id == reportId);
+            if(report is null)
+            {
+                throw new Exception("Vendor does not have report");
+            }
+
+            vendor?.Reports?.Remove(report);
+            await _unitOfWork.SaveChangesAsync();
+        }
+
+        public IEnumerable<ReportDto> GetAllVendorReports(Guid vendorId)
+        {
+            var reports =  _reportRepo.GetQueryable(u => u.VendorId == vendorId).OrderBy(i => i.Id);
+
+            if(reports is null)
+            {
+                throw new Exception("incorrect vendorid");
+            }
+
+            return _mapper.Map<IEnumerable<ReportDto>>(reports);
+        }
+
         public async Task<IEnumerable<Vendor>> GetAllVendors()
         {
             IEnumerable<Vendor> vendors = await _vendorRepo.GetAllAsync();
@@ -60,9 +93,9 @@ namespace ReportApp.BLL.Services
             return vendors;
         }
 
-        public async Task<Vendor> GetVendorById(Guid vendorId)
+        public async Task<Vendor> GetVendorById(string vendorId)
         {
-            var vendorExists = await _vendorRepo.GetSingleByAsync(v => v.Id == vendorId);
+            var vendorExists = await _vendorRepo.GetSingleByAsync(v => v.Id.ToString() == vendorId);
             
             if(vendorExists is null)
             {
@@ -72,13 +105,15 @@ namespace ReportApp.BLL.Services
             return vendorExists;
         }
 
+        
+
         public async Task<IEnumerable<VendorsWithReportsDto>> GetVendorsWithReportsAsync()
         {
             return (await _vendorRepo.GetAllAsync(include: e => e.Include(r => r.Reports)))
                 .Select(r=>new VendorsWithReportsDto
                 {
                     FullName = r.Name,
-                    VendorReports = r.Reports.Select(t=>new CreateVendorReportsRequest
+                    VendorReports = r.Reports.Select(t=>new VendorReportDto
                     {
                         Location = t.Location,
                         ResourceAtRisk = t.ResourceAtRisk,
@@ -91,5 +126,31 @@ namespace ReportApp.BLL.Services
                     })
                 });
         }
+
+        public async Task<ReportDto> UpdateVendorReport(CreateVendorReportsRequest request)
+        {
+            var vendor = await _vendorRepo.GetSingleByAsync(v => v.Id == request.VendorId,
+                include: v => v.Include(r => r.Reports), tracking: true);
+
+            if (vendor is null)
+            {
+                throw new Exception("vendor is not found");
+            }
+
+            var report = vendor.Reports.FirstOrDefault(r => r.Id.ToString() == request.ReportId);
+
+            if(report == null)
+            {
+                throw new Exception("report is not found");
+            }
+
+            var updatedReport = _mapper.Map(request, report);
+            await _unitOfWork.SaveChangesAsync();
+            var toReturn = _mapper.Map<ReportDto>(updatedReport);
+            return toReturn;            
+
+        }
+
+
     }
 }

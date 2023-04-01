@@ -12,7 +12,10 @@ namespace ReportApp.BLL.ServicesContract
     {       
         Task<IEnumerable<Vendor>> GetAllVendors();
         Task<IEnumerable<VendorsWithReportsDto>> GetVendorsWithReportsAsync();
-        Task<Vendor> GetVendorById(Guid vendorId);
+        Task<Vendor> GetVendorById(string vendorId);
+        IEnumerable<ReportDto> GetAllVendorReports(Guid vendorId);
         Task<ReportDto> CreateVendorReport(CreateVendorReportsRequest request);
+        Task<ReportDto> UpdateVendorReport(CreateVendorReportsRequest request);
+        Task DeleteVendorReportAsync(Guid vendorId, Guid ReportId);
     }
 }
