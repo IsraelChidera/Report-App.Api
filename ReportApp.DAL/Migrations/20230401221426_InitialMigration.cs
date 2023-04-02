@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ReportApp.DAL.Migrations
 {
-    public partial class ReInitialisingDb : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -154,20 +154,52 @@ namespace ReportApp.DAL.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.InsertData(
-                table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "c94285c4-7223-4fbd-ac17-91da13191606", "f2444050-8702-4a8f-90b3-2726366e7f55", "Customer", "CUSTOMER" });
+            migrationBuilder.CreateTable(
+                name: "Reports",
+                columns: table => new
+                {
+                    ReportId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HazardDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ResourceAtRisk = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RiskProbability = table.Column<int>(type: "int", nullable: false),
+                    RiskImpact = table.Column<int>(type: "int", nullable: false),
+                    PreventiveMeasure = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HazardRating = table.Column<int>(type: "int", nullable: false),
+                    AdditionalInfo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reports", x => x.ReportId);
+                    table.ForeignKey(
+                        name: "FK_Reports_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "d4476f31-4db1-486b-a7c2-d85a24538d8a", "6aeee69e-8027-4630-8357-b55acff28e83", "Vendor", "VENDOR" });
+                values: new object[,]
+                {
+                    { "b026870f-969e-4a11-881d-d7ab01072821", "94e94f5c-da19-47cc-944c-b61a3dbc1b1c", "Admin", "ADMIN" },
+                    { "d5371058-fce0-4694-b10c-2718c71c4590", "2afaba5a-3277-4d6a-81a2-6e1e18288bd8", "Customer", "CUSTOMER" },
+                    { "eeff6a57-bd19-47da-b665-d8682c49e413", "40f55e7f-db0a-41c9-aabd-b5b674dcb087", "Vendor", "VENDOR" }
+                });
 
             migrationBuilder.InsertData(
-                table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "d97ff8e4-cc12-40b4-b04e-d33f1273632a", "1d816113-e76c-4995-bcec-4f1b5dfaf798", "Admin", "ADMIN" });
+                table: "Reports",
+                columns: new[] { "ReportId", "AdditionalInfo", "HazardDescription", "HazardRating", "Location", "PreventiveMeasure", "ResourceAtRisk", "RiskImpact", "RiskProbability", "UserId" },
+                values: new object[,]
+                {
+                    { new Guid("10bc62a1-e8a6-476f-8fc2-743c1f46b8d8"), "Jo ..", "Baking is ...", 0, "Nsukka, Enugu", "Cakes and cakes materials ...", "Environment", 1, 1, null },
+                    { new Guid("5f5ca5c5-3b5e-40a3-9a9e-9fa9b7d04d51"), "Jo ..", "Fashion world is ...", 0, "Agbelekale, Laos", "Remains of clothes ...", "Environment", 1, 1, null },
+                    { new Guid("8c90bb06-13e5-4d8f-a14f-5461b9d2703a"), "Jo ..", "Environment is ...", 0, "Enugu, Enugu", "Eradixcated the use of pumps", "Environment", 1, 1, null },
+                    { new Guid("a99b6593-2497-4baf-8568-15aa1c2f2e22"), "Jo ..", "Environment is ...", 0, "Enugu, Enugu", "Eradixcated the use of pumps", "Environment", 1, 1, null },
+                    { new Guid("d4d1554e-4a96-4a34-bc71-c1f9b3ceba06"), "Jo ..", "Environment is ...", 0, "Ikeja, Lagos", "To ... ...", "Environment", 1, 1, null }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -207,6 +239,11 @@ namespace ReportApp.DAL.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reports_UserId",
+                table: "Reports",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -225,6 +262,9 @@ namespace ReportApp.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Reports");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

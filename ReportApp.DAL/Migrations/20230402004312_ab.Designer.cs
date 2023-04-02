@@ -12,8 +12,8 @@ using ReportApp.DAL;
 namespace ReportApp.DAL.Migrations
 {
     [DbContext(typeof(ReportDbContext))]
-    [Migration("20230328235714_InitialiazedModelsForDb")]
-    partial class InitialiazedModelsForDb
+    [Migration("20230402004312_ab")]
+    partial class ab
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,22 +53,22 @@ namespace ReportApp.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d543a22e-cad4-4182-b3d2-38deaba3be12",
-                            ConcurrencyStamp = "bb53c3e6-2e03-4afe-9681-6e2f430fdd66",
+                            Id = "73fcaa88-a183-4d3c-bf6c-466b74c23cd1",
+                            ConcurrencyStamp = "ed20d424-e27d-46ff-b0ff-343777c88404",
                             Name = "Vendor",
                             NormalizedName = "VENDOR"
                         },
                         new
                         {
-                            Id = "3fdb591c-926a-4cac-8a64-9f551ac0361d",
-                            ConcurrencyStamp = "956129d3-5586-4311-9832-029c81595f0b",
+                            Id = "d9bdb733-edba-4640-9669-6082bb679d49",
+                            ConcurrencyStamp = "d72e4591-b95a-49ba-bd4b-f8241eb955b9",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
-                            Id = "9270909d-3c87-4031-8c2e-e2362dabd411",
-                            ConcurrencyStamp = "9fda7508-e000-462f-8178-94aafc6941d5",
+                            Id = "2eaed375-e724-4623-8988-25aca08628dc",
+                            ConcurrencyStamp = "44a6ebe4-99c0-4bf4-a42a-8633756a4a4e",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -245,63 +245,14 @@ namespace ReportApp.DAL.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("ReportApp.DAL.Entities.Admin", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("AdminId");
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("admins");
-                });
-
-            modelBuilder.Entity("ReportApp.DAL.Entities.Customer", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("CustomerId");
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("customers");
-                });
-
             modelBuilder.Entity("ReportApp.DAL.Entities.Report", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("ReportId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("ReportId");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("AdditionalInfo")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("AdminId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CustomerId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("HazardDescription")
                         .IsRequired()
@@ -328,39 +279,14 @@ namespace ReportApp.DAL.Migrations
                     b.Property<int>("RiskProbability")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("VendorId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Id");
+                    b.HasKey("ReportId");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("UserId");
 
-                    b.HasIndex("VendorId");
-
-                    b.ToTable("Report");
-                });
-
-            modelBuilder.Entity("ReportApp.DAL.Entities.Vendor", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("VendorId");
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("vendors");
+                    b.ToTable("Reports");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -416,31 +342,16 @@ namespace ReportApp.DAL.Migrations
 
             modelBuilder.Entity("ReportApp.DAL.Entities.Report", b =>
                 {
-                    b.HasOne("ReportApp.DAL.Entities.Customer", "Customer")
-                        .WithMany("Reports")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("ReportApp.BLL.Entities.AppUsers", "User")
+                        .WithMany("Products")
+                        .HasForeignKey("UserId");
 
-                    b.HasOne("ReportApp.DAL.Entities.Vendor", "Vendor")
-                        .WithMany("Reports")
-                        .HasForeignKey("VendorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-
-                    b.Navigation("Vendor");
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ReportApp.DAL.Entities.Customer", b =>
+            modelBuilder.Entity("ReportApp.BLL.Entities.AppUsers", b =>
                 {
-                    b.Navigation("Reports");
-                });
-
-            modelBuilder.Entity("ReportApp.DAL.Entities.Vendor", b =>
-                {
-                    b.Navigation("Reports");
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

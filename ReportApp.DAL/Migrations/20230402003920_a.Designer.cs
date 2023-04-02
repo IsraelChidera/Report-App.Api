@@ -12,8 +12,8 @@ using ReportApp.DAL;
 namespace ReportApp.DAL.Migrations
 {
     [DbContext(typeof(ReportDbContext))]
-    [Migration("20230328131550_ReInitialisingDb")]
-    partial class ReInitialisingDb
+    [Migration("20230402003920_a")]
+    partial class a
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,22 +53,22 @@ namespace ReportApp.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d4476f31-4db1-486b-a7c2-d85a24538d8a",
-                            ConcurrencyStamp = "6aeee69e-8027-4630-8357-b55acff28e83",
+                            Id = "83396850-c817-41bc-9fcb-032af542323f",
+                            ConcurrencyStamp = "6c1109f0-9001-4e68-8a85-0d99eb9d30dc",
                             Name = "Vendor",
                             NormalizedName = "VENDOR"
                         },
                         new
                         {
-                            Id = "c94285c4-7223-4fbd-ac17-91da13191606",
-                            ConcurrencyStamp = "f2444050-8702-4a8f-90b3-2726366e7f55",
+                            Id = "5f65b64a-64dc-46ca-87d7-9ea6ecdaabff",
+                            ConcurrencyStamp = "310694ed-5250-411f-965e-08d9ae8f4682",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
-                            Id = "d97ff8e4-cc12-40b4-b04e-d33f1273632a",
-                            ConcurrencyStamp = "1d816113-e76c-4995-bcec-4f1b5dfaf798",
+                            Id = "acc747b9-ed9f-4e4a-9c7c-57bcd0726772",
+                            ConcurrencyStamp = "37209d2d-4055-4e0e-8e08-58f7d81bc506",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -245,6 +245,112 @@ namespace ReportApp.DAL.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("ReportApp.DAL.Entities.Report", b =>
+                {
+                    b.Property<Guid>("ReportId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AdditionalInfo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HazardDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("HazardRating")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PreventiveMeasure")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ResourceAtRisk")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RiskImpact")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RiskProbability")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ReportId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Reports");
+
+                    b.HasData(
+                        new
+                        {
+                            ReportId = new Guid("d4d1554e-4a96-4a34-bc71-c1f9b3ceba06"),
+                            AdditionalInfo = "Jo ..",
+                            HazardDescription = "Environment is ...",
+                            HazardRating = 0,
+                            Location = "Ikeja, Lagos",
+                            PreventiveMeasure = "To ... ...",
+                            ResourceAtRisk = "Environment",
+                            RiskImpact = 1,
+                            RiskProbability = 1
+                        },
+                        new
+                        {
+                            ReportId = new Guid("8c90bb06-13e5-4d8f-a14f-5461b9d2703a"),
+                            AdditionalInfo = "Jo ..",
+                            HazardDescription = "Environment is ...",
+                            HazardRating = 0,
+                            Location = "Enugu, Enugu",
+                            PreventiveMeasure = "Eradixcated the use of pumps",
+                            ResourceAtRisk = "Environment",
+                            RiskImpact = 1,
+                            RiskProbability = 1
+                        },
+                        new
+                        {
+                            ReportId = new Guid("a99b6593-2497-4baf-8568-15aa1c2f2e22"),
+                            AdditionalInfo = "Jo ..",
+                            HazardDescription = "Environment is ...",
+                            HazardRating = 0,
+                            Location = "Enugu, Enugu",
+                            PreventiveMeasure = "Eradixcated the use of pumps",
+                            ResourceAtRisk = "Environment",
+                            RiskImpact = 1,
+                            RiskProbability = 1
+                        },
+                        new
+                        {
+                            ReportId = new Guid("5f5ca5c5-3b5e-40a3-9a9e-9fa9b7d04d51"),
+                            AdditionalInfo = "Jo ..",
+                            HazardDescription = "Fashion world is ...",
+                            HazardRating = 0,
+                            Location = "Agbelekale, Laos",
+                            PreventiveMeasure = "Remains of clothes ...",
+                            ResourceAtRisk = "Environment",
+                            RiskImpact = 1,
+                            RiskProbability = 1
+                        },
+                        new
+                        {
+                            ReportId = new Guid("10bc62a1-e8a6-476f-8fc2-743c1f46b8d8"),
+                            AdditionalInfo = "Jo ..",
+                            HazardDescription = "Baking is ...",
+                            HazardRating = 0,
+                            Location = "Nsukka, Enugu",
+                            PreventiveMeasure = "Cakes and cakes materials ...",
+                            ResourceAtRisk = "Environment",
+                            RiskImpact = 1,
+                            RiskProbability = 1
+                        });
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -294,6 +400,20 @@ namespace ReportApp.DAL.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ReportApp.DAL.Entities.Report", b =>
+                {
+                    b.HasOne("ReportApp.BLL.Entities.AppUsers", "User")
+                        .WithMany("Products")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ReportApp.BLL.Entities.AppUsers", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

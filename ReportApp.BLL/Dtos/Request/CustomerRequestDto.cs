@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReportApp.Infrastructure.Dtos
+namespace ReportApp.BLL.Dtos.Request
 {
-    public class ReportResponseDto
+    public class CustomerRequestDto
     {
-
     }
 }

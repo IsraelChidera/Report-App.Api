@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using ReportApp.BLL.Dtos.Request;
+using ReportApp.BLL.Dtos.Response;
 using ReportApp.BLL.Entities;
 using ReportApp.DAL.Entities;
 using ReportApp.Infrastructure.Dtos;
@@ -20,10 +22,12 @@ namespace ReportApp.BLL.MappingProfile
             CreateMap<VendorForRegistration, AppUsers>();
 
             CreateMap<CustomerForRegistration, AppUsers>();
-
-            CreateMap<Report, ReportDto>();
+           
             CreateMap<CreateVendorReportsRequest, Report>();
-            CreateMap<Report, ReportDto>();
+
+            CreateMap<ReportRequestDto, Report>();            
+            CreateMap<Report, ReportResponseDto>();
+            
 
             /*var newReport = _mapper.Map<Report>(request);
             vendor.Reports.Add(newReport);

@@ -1,4 +1,6 @@
-﻿using ReportApp.DAL.Entities;
+﻿using ReportApp.BLL.Dtos.Request;
+using ReportApp.BLL.Dtos.Response;
+using ReportApp.DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +11,7 @@ namespace ReportApp.BLL.ServicesContract
 {
     public interface IReportService
     {
-        Task<(bool check, string message)> AddReportAsync();
+        Task<ReportResponseDto> AddReportAsync(ReportRequestDto modelRequest);
         Task<(bool check, string message)> DeleteReportAsync();
         Task<(bool check, string message)> UpdateReportAsync();
         (Report ReportResult, string message) GetReport(int employeeID, int reportID);

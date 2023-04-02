@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReportApp.DAL.Entities.Enum
+namespace ReportApp.DAL.Enum
 {
     public class RiskProbabilityEnum
     {
         public enum RiskProbability
         {
-            low=0,
-            middle=1,
-            high=2,
+            low = 0,
+            middle = 1,
+            high = 2,
         }
     }
 }

@@ -51,22 +51,22 @@ namespace ReportApp.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d8a949d1-68b2-401f-b5b5-19fbc8d8dd97",
-                            ConcurrencyStamp = "a0c9ef95-e950-4792-b469-0cd32f4209a6",
+                            Id = "73fcaa88-a183-4d3c-bf6c-466b74c23cd1",
+                            ConcurrencyStamp = "ed20d424-e27d-46ff-b0ff-343777c88404",
                             Name = "Vendor",
                             NormalizedName = "VENDOR"
                         },
                         new
                         {
-                            Id = "285685f2-a931-482b-9fab-20228d42eae4",
-                            ConcurrencyStamp = "6fa1a9f9-dd69-452b-a1b8-032fc2fdcbb2",
+                            Id = "d9bdb733-edba-4640-9669-6082bb679d49",
+                            ConcurrencyStamp = "d72e4591-b95a-49ba-bd4b-f8241eb955b9",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
-                            Id = "5531a992-4c4b-4854-862c-c1d6cddb7bc3",
-                            ConcurrencyStamp = "846f6c5f-5479-4d8e-9821-4a8a3492169a",
+                            Id = "2eaed375-e724-4623-8988-25aca08628dc",
+                            ConcurrencyStamp = "44a6ebe4-99c0-4bf4-a42a-8633756a4a4e",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -243,102 +243,14 @@ namespace ReportApp.DAL.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("ReportApp.DAL.Entities.Admin", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("AdminId");
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("admins");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("e87c3a3f-8e56-49c3-9d48-61833e7a1a13"),
-                            Address = "Ugwuaji, Enugu",
-                            FullName = "Israel Chidera"
-                        },
-                        new
-                        {
-                            Id = new Guid("dbdcefb9-7e1f-4699-aa6b-d1636c601f6b"),
-                            Address = "Ondo,Delta",
-                            FullName = "Lumueus Fadeyi"
-                        },
-                        new
-                        {
-                            Id = new Guid("b4216dbf-f4c1-4b4a-a418-75f4efbc54f4"),
-                            Address = "Greenwood, Canada",
-                            FullName = "Ramsey Icee"
-                        });
-                });
-
-            modelBuilder.Entity("ReportApp.DAL.Entities.Customer", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("CustomerId");
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("customers");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("02a3d3b1-9b57-4c81-b99e-af54041bda38"),
-                            Address = "1A, Ohiala, New Market Rd., Enugu",
-                            Name = "Emmanuel Ogbodo",
-                            Phone = "09087762534"
-                        },
-                        new
-                        {
-                            Id = new Guid("ab873ce9-f1f1-45c2-a925-bf24e0c3a3a7"),
-                            Name = "Chioma Chukwuka",
-                            Phone = "08115627788"
-                        },
-                        new
-                        {
-                            Id = new Guid("8a8c1f05-3255-4f9d-80d8-00c2d17221bf"),
-                            Address = "5A, Riverdale street, L.A",
-                            Name = "Emeka Anslem",
-                            Phone = "09112783833"
-                        });
-                });
-
             modelBuilder.Entity("ReportApp.DAL.Entities.Report", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("ReportId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("ReportId");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("AdditionalInfo")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("CustomerId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("HazardDescription")
                         .IsRequired()
@@ -365,129 +277,14 @@ namespace ReportApp.DAL.Migrations
                     b.Property<int>("RiskProbability")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("VendorId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Id");
+                    b.HasKey("ReportId");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("UserId");
 
-                    b.HasIndex("VendorId");
-
-                    b.ToTable("Report");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("d4d1554e-4a96-4a34-bc71-c1f9b3ceba06"),
-                            AdditionalInfo = "Jo ..",
-                            CustomerId = new Guid("02a3d3b1-9b57-4c81-b99e-af54041bda38"),
-                            HazardDescription = "Environment is ...",
-                            HazardRating = 0,
-                            Location = "Ikeja, Lagos",
-                            PreventiveMeasure = "To ... ...",
-                            ResourceAtRisk = "Environment",
-                            RiskImpact = 1,
-                            RiskProbability = 1
-                        },
-                        new
-                        {
-                            Id = new Guid("8c90bb06-13e5-4d8f-a14f-5461b9d2703a"),
-                            AdditionalInfo = "Jo ..",
-                            CustomerId = new Guid("02a3d3b1-9b57-4c81-b99e-af54041bda38"),
-                            HazardDescription = "Environment is ...",
-                            HazardRating = 0,
-                            Location = "Enugu, Enugu",
-                            PreventiveMeasure = "Eradixcated the use of pumps",
-                            ResourceAtRisk = "Environment",
-                            RiskImpact = 1,
-                            RiskProbability = 1
-                        },
-                        new
-                        {
-                            Id = new Guid("a99b6593-2497-4baf-8568-15aa1c2f2e22"),
-                            AdditionalInfo = "Jo ..",
-                            CustomerId = new Guid("ab873ce9-f1f1-45c2-a925-bf24e0c3a3a7"),
-                            HazardDescription = "Environment is ...",
-                            HazardRating = 0,
-                            Location = "Enugu, Enugu",
-                            PreventiveMeasure = "Eradixcated the use of pumps",
-                            ResourceAtRisk = "Environment",
-                            RiskImpact = 1,
-                            RiskProbability = 1
-                        },
-                        new
-                        {
-                            Id = new Guid("5f5ca5c5-3b5e-40a3-9a9e-9fa9b7d04d51"),
-                            AdditionalInfo = "Jo ..",
-                            HazardDescription = "Fashion world is ...",
-                            HazardRating = 0,
-                            Location = "Agbelekale, Laos",
-                            PreventiveMeasure = "Remains of clothes ...",
-                            ResourceAtRisk = "Environment",
-                            RiskImpact = 1,
-                            RiskProbability = 1,
-                            VendorId = new Guid("a58b932a-562f-4c4a-8724-4c7dfc4b8d12")
-                        },
-                        new
-                        {
-                            Id = new Guid("10bc62a1-e8a6-476f-8fc2-743c1f46b8d8"),
-                            AdditionalInfo = "Jo ..",
-                            HazardDescription = "Baking is ...",
-                            HazardRating = 0,
-                            Location = "Nsukka, Enugu",
-                            PreventiveMeasure = "Cakes and cakes materials ...",
-                            ResourceAtRisk = "Environment",
-                            RiskImpact = 1,
-                            RiskProbability = 1,
-                            VendorId = new Guid("c580a7b9-1431-4df1-ba4b-347e4c4fbba8")
-                        });
-                });
-
-            modelBuilder.Entity("ReportApp.DAL.Entities.Vendor", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("VendorId");
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("vendors");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("ee3d9db9-0a70-4c81-a1a1-2c152b2d0ca7"),
-                            Address = "Genesis estate, Alagbado, Lagos",
-                            Name = "Darlington Obinna",
-                            Phone = "0906234566"
-                        },
-                        new
-                        {
-                            Id = new Guid("a58b932a-562f-4c4a-8724-4c7dfc4b8d12"),
-                            Address = "Captain bus stop, Agbele, Lagos",
-                            Name = "Joy Lobo",
-                            Phone = "0906234566"
-                        },
-                        new
-                        {
-                            Id = new Guid("c580a7b9-1431-4df1-ba4b-347e4c4fbba8"),
-                            Address = "Akara junction, Nsukka",
-                            Name = "Glory Chinonye",
-                            Phone = "08146255234"
-                        });
+                    b.ToTable("Reports");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -543,27 +340,16 @@ namespace ReportApp.DAL.Migrations
 
             modelBuilder.Entity("ReportApp.DAL.Entities.Report", b =>
                 {
-                    b.HasOne("ReportApp.DAL.Entities.Customer", "Customer")
-                        .WithMany("Reports")
-                        .HasForeignKey("CustomerId");
+                    b.HasOne("ReportApp.BLL.Entities.AppUsers", "User")
+                        .WithMany("Products")
+                        .HasForeignKey("UserId");
 
-                    b.HasOne("ReportApp.DAL.Entities.Vendor", "Vendor")
-                        .WithMany("Reports")
-                        .HasForeignKey("VendorId");
-
-                    b.Navigation("Customer");
-
-                    b.Navigation("Vendor");
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ReportApp.DAL.Entities.Customer", b =>
+            modelBuilder.Entity("ReportApp.BLL.Entities.AppUsers", b =>
                 {
-                    b.Navigation("Reports");
-                });
-
-            modelBuilder.Entity("ReportApp.DAL.Entities.Vendor", b =>
-                {
-                    b.Navigation("Reports");
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

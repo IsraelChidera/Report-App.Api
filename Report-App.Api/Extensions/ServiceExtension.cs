@@ -40,8 +40,7 @@ namespace Report_App.Api.Extensions
         public static void ConfigureServices(this IServiceCollection services)
         {
             services.AddTransient<IUnitOfWork, UnitOfWork<ReportDbContext>>();
-            services.AddTransient<IAuthenticationService, AuthenticationService>();
-            services.AddTransient<IVendorService, VendorService>();
+            services.AddTransient<IAuthenticationService, AuthenticationService>();            
             services.AddTransient<IReportService, ReportService>();
         }
 
