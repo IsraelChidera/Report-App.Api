@@ -48,9 +48,22 @@ namespace ReportApp.BLL.Services
 
         }
 
-        public Task<(bool check, string message)> DeleteReportAsync()
+        public async Task DeleteReportAsync(Guid userId, Guid reportId)
         {
-            throw new NotImplementedException();
+            AppUsers user = await _userManager.FindByIdAsync(userId.ToString());
+
+            if(user is null)
+            {
+                throw new Exception("user does not exist");
+            }
+
+            Report report = await _reportRepo.GetSingleByAsync(r=>r.ReportId == reportId);
+            if (report is null)
+            {
+                throw new Exception("report does not exist");
+            }
+            await _reportRepo.DeleteAsync(report);
+            
         }
 
         public async Task<IEnumerable<Report>> GetAllReportsAsync()

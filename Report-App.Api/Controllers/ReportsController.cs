@@ -53,5 +53,14 @@ namespace Report_App.Api.Controllers
             return NoContent();
         }
 
+        [HttpDelete]
+        [Route("delete-report")]
+        public async Task<IActionResult> DeleteReport(Guid userId, Guid reportId)
+        {
+            await _reportService.DeleteReportAsync(userId, reportId);
+
+            return NoContent();
+        }
+
     }
 }
