@@ -17,7 +17,7 @@ namespace ReportApp.DAL
         {
             base.OnModelCreating(builder);
 
-            //builder.ApplyConfiguration(new ReportConfiguration());
+            builder.ApplyConfiguration(new ReportConfiguration());
             builder.ApplyConfiguration(new RoleConfiguration());
         }
 

@@ -20,10 +20,37 @@ namespace Report_App.Api.Controllers
         [Route("add-report")]
         public async Task<IActionResult> CreateUserReport([FromBody] ReportRequestDto modelRequest)
         {
-            var model = await _reportService.AddReportAsync(modelRequest);
+            var result = await _reportService.AddReportAsync(modelRequest);
 
-            return StatusCode(201, model);
+            return StatusCode(201, result);
 
+        }
+
+        [HttpGet]
+        [Route("get-all-reports")]
+        public async Task<IActionResult> GetAllReports()
+        {
+            var result = await _reportService.GetAllReportsAsync();
+
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("get-user-reports")]
+        public IActionResult GetReports(Guid userId)
+        {
+            var result = _reportService.GetUserReports(userId);
+
+            return Ok(result);
+        }
+
+        [HttpPut]
+        [Route("update-user-report")]
+        public async Task<IActionResult> UpdateUserReport([FromBody]ReportRequestForUpdateDto modelRequest)
+        {
+            var result = await _reportService.UpdateReportAsync(modelRequest);
+            
+            return NoContent();
         }
 
     }

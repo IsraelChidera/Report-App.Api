@@ -51,22 +51,22 @@ namespace ReportApp.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "73fcaa88-a183-4d3c-bf6c-466b74c23cd1",
-                            ConcurrencyStamp = "ed20d424-e27d-46ff-b0ff-343777c88404",
+                            Id = "4bb826e5-ce8d-484d-8ed2-d9f4dadf701b",
+                            ConcurrencyStamp = "cfdec8fa-8efa-49d0-ac95-0af4ec191f34",
                             Name = "Vendor",
                             NormalizedName = "VENDOR"
                         },
                         new
                         {
-                            Id = "d9bdb733-edba-4640-9669-6082bb679d49",
-                            ConcurrencyStamp = "d72e4591-b95a-49ba-bd4b-f8241eb955b9",
+                            Id = "54c6dd8c-0745-49d7-858b-621f4600097f",
+                            ConcurrencyStamp = "06392790-607d-451f-a903-6611fe7a97ae",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
-                            Id = "2eaed375-e724-4623-8988-25aca08628dc",
-                            ConcurrencyStamp = "44a6ebe4-99c0-4bf4-a42a-8633756a4a4e",
+                            Id = "6182487b-0997-4df5-8d88-6baf8af53706",
+                            ConcurrencyStamp = "ccb6a434-5c68-4b1e-bea4-68ebd4f5a181",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -277,14 +277,84 @@ namespace ReportApp.DAL.Migrations
                     b.Property<int>("RiskProbability")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserId1")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ReportId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId1");
 
                     b.ToTable("Reports");
+
+                    b.HasData(
+                        new
+                        {
+                            ReportId = new Guid("d4d1554e-4a96-4a34-bc71-c1f9b3ceba06"),
+                            AdditionalInfo = "Jo ..",
+                            HazardDescription = "Environment is ...",
+                            HazardRating = 0,
+                            Location = "Ikeja, Lagos",
+                            PreventiveMeasure = "To ... ...",
+                            ResourceAtRisk = "Environment",
+                            RiskImpact = 1,
+                            RiskProbability = 1,
+                            UserId = new Guid("19f907bf-4633-4b75-8f53-35ce78eb97f2")
+                        },
+                        new
+                        {
+                            ReportId = new Guid("8c90bb06-13e5-4d8f-a14f-5461b9d2703a"),
+                            AdditionalInfo = "Jo ..",
+                            HazardDescription = "Environment is ...",
+                            HazardRating = 0,
+                            Location = "Enugu, Enugu",
+                            PreventiveMeasure = "Eradixcated the use of pumps",
+                            ResourceAtRisk = "Environment",
+                            RiskImpact = 1,
+                            RiskProbability = 1,
+                            UserId = new Guid("9a6a288c-df87-476d-8c13-15e008c84d71")
+                        },
+                        new
+                        {
+                            ReportId = new Guid("a99b6593-2497-4baf-8568-15aa1c2f2e22"),
+                            AdditionalInfo = "Jo ..",
+                            HazardDescription = "Environment is ...",
+                            HazardRating = 0,
+                            Location = "Enugu, Enugu",
+                            PreventiveMeasure = "Eradixcated the use of pumps",
+                            ResourceAtRisk = "Environment",
+                            RiskImpact = 1,
+                            RiskProbability = 1,
+                            UserId = new Guid("a8b6c9d0-22e5-45f1-a3c5-6e5b46d201c6")
+                        },
+                        new
+                        {
+                            ReportId = new Guid("5f5ca5c5-3b5e-40a3-9a9e-9fa9b7d04d51"),
+                            AdditionalInfo = "Jo ..",
+                            HazardDescription = "Fashion world is ...",
+                            HazardRating = 0,
+                            Location = "Agbelekale, Laos",
+                            PreventiveMeasure = "Remains of clothes ...",
+                            ResourceAtRisk = "Environment",
+                            RiskImpact = 1,
+                            RiskProbability = 1,
+                            UserId = new Guid("d0b8c61b-7720-49f1-95c8-42e2b98d67e9")
+                        },
+                        new
+                        {
+                            ReportId = new Guid("10bc62a1-e8a6-476f-8fc2-743c1f46b8d8"),
+                            AdditionalInfo = "Jo ..",
+                            HazardDescription = "Baking is ...",
+                            HazardRating = 0,
+                            Location = "Nsukka, Enugu",
+                            PreventiveMeasure = "Cakes and cakes materials ...",
+                            ResourceAtRisk = "Environment",
+                            RiskImpact = 1,
+                            RiskProbability = 1,
+                            UserId = new Guid("6c8a9db9-93a4-4d7b-8b8f-7e41aa1d52a7")
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -342,7 +412,7 @@ namespace ReportApp.DAL.Migrations
                 {
                     b.HasOne("ReportApp.BLL.Entities.AppUsers", "User")
                         .WithMany("Products")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId1");
 
                     b.Navigation("User");
                 });

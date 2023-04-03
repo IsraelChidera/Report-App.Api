@@ -22,7 +22,8 @@ namespace ReportApp.DAL.Configuration
                     RiskImpact = RiskImpact.middle,
                     PreventiveMeasure = "To ... ...",
                     HazardRating = HazardRating.low,
-                    AdditionalInfo = "Jo ..",                    
+                    AdditionalInfo = "Jo ..",    
+                    UserId= new Guid("19f907bf-4633-4b75-8f53-35ce78eb97f2")
                 },
 
                 new Report()
@@ -36,7 +37,7 @@ namespace ReportApp.DAL.Configuration
                     PreventiveMeasure = "Eradixcated the use of pumps",
                     HazardRating = HazardRating.low,
                     AdditionalInfo = "Jo ..",
-                    
+                    UserId = new Guid("9a6a288c-df87-476d-8c13-15e008c84d71")
                 },
 
                 new Report()
@@ -50,7 +51,7 @@ namespace ReportApp.DAL.Configuration
                     PreventiveMeasure = "Eradixcated the use of pumps",
                     HazardRating = HazardRating.low,
                     AdditionalInfo = "Jo ..",
-                   
+                    UserId = new Guid("a8b6c9d0-22e5-45f1-a3c5-6e5b46d201c6")
                 },
                 new Report()
                 {
@@ -63,7 +64,7 @@ namespace ReportApp.DAL.Configuration
                     PreventiveMeasure = "Remains of clothes ...",
                     HazardRating = HazardRating.low,
                     AdditionalInfo = "Jo ..",
-                    
+                    UserId = new Guid("d0b8c61b-7720-49f1-95c8-42e2b98d67e9")
                 },
 
                 new Report()
@@ -76,7 +77,8 @@ namespace ReportApp.DAL.Configuration
                     RiskImpact = RiskImpact.middle,
                     PreventiveMeasure = "Cakes and cakes materials ...",
                     HazardRating = HazardRating.low,
-                    AdditionalInfo = "Jo .."
+                    AdditionalInfo = "Jo ..",
+                    UserId = new Guid("6c8a9db9-93a4-4d7b-8b8f-7e41aa1d52a7")
                 }
 
             );

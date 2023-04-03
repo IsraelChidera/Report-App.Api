@@ -12,8 +12,8 @@ using ReportApp.DAL;
 namespace ReportApp.DAL.Migrations
 {
     [DbContext(typeof(ReportDbContext))]
-    [Migration("20230402004312_ab")]
-    partial class ab
+    [Migration("20230403075047_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,22 +53,22 @@ namespace ReportApp.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "73fcaa88-a183-4d3c-bf6c-466b74c23cd1",
-                            ConcurrencyStamp = "ed20d424-e27d-46ff-b0ff-343777c88404",
+                            Id = "c5b4b930-4147-4f62-9481-ff4770b2d41c",
+                            ConcurrencyStamp = "7f748fba-9a87-446f-b51e-400a83c61a0b",
                             Name = "Vendor",
                             NormalizedName = "VENDOR"
                         },
                         new
                         {
-                            Id = "d9bdb733-edba-4640-9669-6082bb679d49",
-                            ConcurrencyStamp = "d72e4591-b95a-49ba-bd4b-f8241eb955b9",
+                            Id = "95c13901-7432-43f2-a8f4-7faad3478345",
+                            ConcurrencyStamp = "7c6d4ff1-8641-417b-a92d-979164b7c594",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
-                            Id = "2eaed375-e724-4623-8988-25aca08628dc",
-                            ConcurrencyStamp = "44a6ebe4-99c0-4bf4-a42a-8633756a4a4e",
+                            Id = "8a88f736-4681-4522-9d18-e4029fa54de5",
+                            ConcurrencyStamp = "9d410ab3-4a2f-436d-9dbc-0df89535fac9",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -279,12 +279,15 @@ namespace ReportApp.DAL.Migrations
                     b.Property<int>("RiskProbability")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserId1")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ReportId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId1");
 
                     b.ToTable("Reports");
                 });
@@ -344,7 +347,7 @@ namespace ReportApp.DAL.Migrations
                 {
                     b.HasOne("ReportApp.BLL.Entities.AppUsers", "User")
                         .WithMany("Products")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId1");
 
                     b.Navigation("User");
                 });

@@ -12,8 +12,8 @@ using ReportApp.DAL;
 namespace ReportApp.DAL.Migrations
 {
     [DbContext(typeof(ReportDbContext))]
-    [Migration("20230402003920_a")]
-    partial class a
+    [Migration("20230403080626_AddSeeds")]
+    partial class AddSeeds
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,22 +53,22 @@ namespace ReportApp.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "83396850-c817-41bc-9fcb-032af542323f",
-                            ConcurrencyStamp = "6c1109f0-9001-4e68-8a85-0d99eb9d30dc",
+                            Id = "833b14a0-8354-4741-a602-2d3a03439070",
+                            ConcurrencyStamp = "dbf349f7-88eb-40f1-9de5-28899c68e3e8",
                             Name = "Vendor",
                             NormalizedName = "VENDOR"
                         },
                         new
                         {
-                            Id = "5f65b64a-64dc-46ca-87d7-9ea6ecdaabff",
-                            ConcurrencyStamp = "310694ed-5250-411f-965e-08d9ae8f4682",
+                            Id = "be19b707-94f2-458c-8e31-8f7447ad81ed",
+                            ConcurrencyStamp = "743c8da3-e372-4734-b7f0-34d94582ff57",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
-                            Id = "acc747b9-ed9f-4e4a-9c7c-57bcd0726772",
-                            ConcurrencyStamp = "37209d2d-4055-4e0e-8e08-58f7d81bc506",
+                            Id = "6db8afdd-531d-4cba-bf13-5d5d503961eb",
+                            ConcurrencyStamp = "17dcafb5-ea69-4154-beb3-839d4e95016b",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -279,12 +279,15 @@ namespace ReportApp.DAL.Migrations
                     b.Property<int>("RiskProbability")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserId1")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ReportId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId1");
 
                     b.ToTable("Reports");
 
@@ -299,7 +302,8 @@ namespace ReportApp.DAL.Migrations
                             PreventiveMeasure = "To ... ...",
                             ResourceAtRisk = "Environment",
                             RiskImpact = 1,
-                            RiskProbability = 1
+                            RiskProbability = 1,
+                            UserId = new Guid("19f907bf-4633-4b75-8f53-35ce78eb97f2")
                         },
                         new
                         {
@@ -311,7 +315,8 @@ namespace ReportApp.DAL.Migrations
                             PreventiveMeasure = "Eradixcated the use of pumps",
                             ResourceAtRisk = "Environment",
                             RiskImpact = 1,
-                            RiskProbability = 1
+                            RiskProbability = 1,
+                            UserId = new Guid("9a6a288c-df87-476d-8c13-15e008c84d71")
                         },
                         new
                         {
@@ -323,7 +328,8 @@ namespace ReportApp.DAL.Migrations
                             PreventiveMeasure = "Eradixcated the use of pumps",
                             ResourceAtRisk = "Environment",
                             RiskImpact = 1,
-                            RiskProbability = 1
+                            RiskProbability = 1,
+                            UserId = new Guid("a8b6c9d0-22e5-45f1-a3c5-6e5b46d201c6")
                         },
                         new
                         {
@@ -335,7 +341,8 @@ namespace ReportApp.DAL.Migrations
                             PreventiveMeasure = "Remains of clothes ...",
                             ResourceAtRisk = "Environment",
                             RiskImpact = 1,
-                            RiskProbability = 1
+                            RiskProbability = 1,
+                            UserId = new Guid("d0b8c61b-7720-49f1-95c8-42e2b98d67e9")
                         },
                         new
                         {
@@ -347,7 +354,8 @@ namespace ReportApp.DAL.Migrations
                             PreventiveMeasure = "Cakes and cakes materials ...",
                             ResourceAtRisk = "Environment",
                             RiskImpact = 1,
-                            RiskProbability = 1
+                            RiskProbability = 1,
+                            UserId = new Guid("6c8a9db9-93a4-4d7b-8b8f-7e41aa1d52a7")
                         });
                 });
 
@@ -406,7 +414,7 @@ namespace ReportApp.DAL.Migrations
                 {
                     b.HasOne("ReportApp.BLL.Entities.AppUsers", "User")
                         .WithMany("Products")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId1");
 
                     b.Navigation("User");
                 });

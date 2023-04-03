@@ -1,15 +1,19 @@
-﻿using ReportApp.BLL.Entities;
+﻿using ReportApp.DAL.Enum;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using static ReportApp.DAL.Enum.HazardRatingEnum;
 using static ReportApp.DAL.Enum.RiskImpactEnum;
 using static ReportApp.DAL.Enum.RiskProbabilityEnum;
 
-namespace ReportApp.DAL.Entities
+namespace ReportApp.BLL.Dtos.Response
 {
-    public class Report
-    {        
-        public Guid ReportId { get; set; }
+    public class ReportResponseForUpdateDto
+    {
+        public Guid Id { get; set; }
 
         [Required(ErrorMessage = "Location is a required field")]
         public string Location { get; set; }
@@ -31,9 +35,7 @@ namespace ReportApp.DAL.Entities
 
         public string? AdditionalInfo { get; set; }
 
-        [ForeignKey("AppUsers")]
         public Guid UserId { get; set; }
-        
-        public AppUsers User { get; set; }
+
     }
 }

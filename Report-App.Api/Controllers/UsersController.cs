@@ -17,7 +17,8 @@ namespace Report_App.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<AppUsers>> Index()
+        [Route("get-all-users")]
+        public async Task<IEnumerable<AppUsers>> GetAllUsers()
         {
             return await _userManager.Users.ToListAsync();
         }

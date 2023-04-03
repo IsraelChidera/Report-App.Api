@@ -13,8 +13,10 @@ namespace ReportApp.BLL.ServicesContract
     {
         Task<ReportResponseDto> AddReportAsync(ReportRequestDto modelRequest);
         Task<(bool check, string message)> DeleteReportAsync();
-        Task<(bool check, string message)> UpdateReportAsync();
+        Task<ReportResponseForUpdateDto> UpdateReportAsync(ReportRequestForUpdateDto modelRequest);
         (Report ReportResult, string message) GetReport(int employeeID, int reportID);
-        IEnumerable<Report> GetAllReports();
+        Task<IEnumerable<Report>> GetAllReportsAsync();
+        IEnumerable<Report> GetUserReports(Guid userId);
+
     }
 }

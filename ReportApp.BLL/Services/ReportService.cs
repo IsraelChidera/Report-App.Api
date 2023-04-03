@@ -6,11 +6,6 @@ using ReportApp.BLL.Entities;
 using ReportApp.BLL.ServicesContract;
 using ReportApp.DAL.Entities;
 using ReportApp.DAL.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ReportApp.BLL.Services
 {
@@ -34,7 +29,7 @@ namespace ReportApp.BLL.Services
         {
             AppUsers userExists = await _userManager.FindByIdAsync(modelRequest.UserId.ToString());
 
-            if(userExists is null)
+            if (userExists == null)
             {
                 throw new Exception("user does not exist");
             }
@@ -42,14 +37,14 @@ namespace ReportApp.BLL.Services
 
             var createdReport = await _reportRepo.AddAsync(newReport);
 
-            if(createdReport is null)
+            if (createdReport == null)
             {
                 throw new Exception("Unable to create report");
             }
 
             var toReturn = _mapper.Map<ReportResponseDto>(createdReport);
 
-            return toReturn;            
+            return toReturn;
 
         }
 
@@ -58,9 +53,16 @@ namespace ReportApp.BLL.Services
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Report> GetAllReports()
+        public async Task<IEnumerable<Report>> GetAllReportsAsync()
         {
-            throw new NotImplementedException();
+            var reports = await _reportRepo.GetAllAsync();
+
+            if (!reports.Any())
+            {
+                throw new InvalidOperationException("Reports is empty");
+            }
+
+            return reports;
         }
 
         public (Report ReportResult, string message) GetReport(int employeeID, int reportID)
@@ -68,9 +70,40 @@ namespace ReportApp.BLL.Services
             throw new NotImplementedException();
         }
 
-        public Task<(bool check, string message)> UpdateReportAsync()
+        public IEnumerable<Report> GetUserReports(Guid userId)
         {
-            throw new NotImplementedException();
+            var userReports = _reportRepo.GetQueryable(r => r.UserId.ToString() == userId.ToString()).OrderBy(i => i.ReportId);
+
+            if (userReports is null)
+            {
+                throw new Exception($"User with {userId} does not have any report");
+            }
+
+            return userReports;
+        }
+
+        public async Task<ReportResponseForUpdateDto> UpdateReportAsync(ReportRequestForUpdateDto modelRequest)
+        {
+            AppUsers user = await _userManager.FindByIdAsync(modelRequest.UserId.ToString());
+
+            if (user == null)
+            {
+                throw new Exception("user is not found");
+            }
+
+            var userReport = await _reportRepo.GetSingleByAsync(r => r.ReportId == modelRequest.Id);
+
+            if (userReport is null)
+            {
+                throw new Exception("User does not have a report");
+            }
+            
+            _mapper.Map(modelRequest, userReport);
+            //CCreateMap<Report, ReportResponseForUpdateDto>();  
+            Report reportUpdated = await _reportRepo.UpdateAsync(userReport);
+            var result = _mapper.Map<ReportResponseForUpdateDto>(reportUpdated);
+
+            return result;
         }
     }
 }

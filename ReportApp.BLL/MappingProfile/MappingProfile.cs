@@ -27,12 +27,13 @@ namespace ReportApp.BLL.MappingProfile
 
             CreateMap<ReportRequestDto, Report>();            
             CreateMap<Report, ReportResponseDto>();
-            
 
-            /*var newReport = _mapper.Map<Report>(request);
-            vendor.Reports.Add(newReport);
+            CreateMap<ReportRequestForUpdateDto, ReportResponseForUpdateDto>();            
 
-            var report = _mapper.Map<ReportDto>(newReport);*/
+            CreateMap< ReportRequestForUpdateDto, Report>();
+
+            CreateMap<Report, ReportResponseForUpdateDto>();
+
         }
     }
 }
