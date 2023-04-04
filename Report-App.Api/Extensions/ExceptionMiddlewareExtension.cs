@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.Extensions.Logging;
+using ReportApp.BLL.ServicesContract;
 using ReportApp.DAL.Entities.ErrorModel;
 using System.Net;
 
@@ -7,7 +8,7 @@ namespace Report_App.Api.Extensions
 {
     public static class ExceptionMiddlewareExtension
     {
-        public static void ConfigureExceptionHandler(this WebApplication app)
+        public static void ConfigureExceptionHandler(this WebApplication app, ILoggerManager logger)
         {
             app.UseExceptionHandler(appError =>
             {

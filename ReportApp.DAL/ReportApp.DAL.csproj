@@ -23,4 +23,8 @@
     <ProjectReference Include="..\Infrastructure\ReportApp.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Entities\Exceptions\" />
+  </ItemGroup>
+
 </Project>

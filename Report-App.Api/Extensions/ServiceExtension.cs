@@ -62,6 +62,12 @@ namespace Report_App.Api.Extensions
         });
 
 
+        public static void ConfigureLoggerService(this IServiceCollection services)
+        {
+            services.AddSingleton<ILoggerManager, LoggerManager>();
+        }
+
+
         public static void ConfigureJWT(this IServiceCollection services, IConfiguration config)
         {
             //save your secret keys in an environment variable rather than in code

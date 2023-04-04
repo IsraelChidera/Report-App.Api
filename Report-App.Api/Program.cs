@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
+using NLog;
 using Report_App.Api.Extensions;
 using ReportApp.BLL.Entities;
+using ReportApp.BLL.ServicesContract;
 using System.Reflection;
 
 namespace Report_App.Api
@@ -13,9 +15,15 @@ namespace Report_App.Api
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            //Injecting logging services
+            LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(),
+            "/nlog.config"));
+
+
             // Add services to the container.
-            //builder.Services.ConfigureCors();
-            //builder.Services.ConfigureIISIntegration();
+            builder.Services.ConfigureCors();
+            builder.Services.ConfigureIISIntegration();
+            builder.Services.ConfigureLoggerService();
             builder.Services.ConfigureSqlContext(builder.Configuration);
             builder.Services.AddAuthentication();
             builder.Services.ConfigureIdentity();
@@ -51,22 +59,31 @@ namespace Report_App.Api
                 });
 
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-            {
-                new OpenApiSecurityScheme
                 {
-                    Reference = new OpenApiReference
                     {
-                        Type = ReferenceType.SecurityScheme,
-                        Id = "Bearer"
-                    }
-                },
-                Array.Empty<string>()
-            },
-     });
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        Array.Empty<string>()
+                    },
+                });
             });
 
             var app = builder.Build();
+
+            var logger = app.Services.GetRequiredService<ILoggerManager>();
+            app.ConfigureExceptionHandler(logger);
+
+            if (app.Environment.IsProduction())
+            {
+                app.UseHsts();
+            }
+
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -80,14 +97,14 @@ namespace Report_App.Api
             app.UseAuthentication();
             app.UseAuthorization();
 
-            /*app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
             app.UseStaticFiles();
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.All
             });
-            app.UseCors("CorsPolicy");*/
+            app.UseCors("CorsPolicy");
 
             app.UseAuthentication();
             app.UseAuthorization();
