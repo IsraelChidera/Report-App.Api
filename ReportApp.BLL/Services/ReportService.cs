@@ -5,6 +5,7 @@ using ReportApp.BLL.Dtos.Response;
 using ReportApp.BLL.Entities;
 using ReportApp.BLL.ServicesContract;
 using ReportApp.DAL.Entities;
+using ReportApp.DAL.Entities.Exceptions;
 using ReportApp.DAL.Repository;
 
 namespace ReportApp.BLL.Services
@@ -31,7 +32,7 @@ namespace ReportApp.BLL.Services
 
             if (userExists == null)
             {
-                throw new Exception("user does not exist");
+                throw new UserNotFoundException(modelRequest.UserId);
             }
             var newReport = _mapper.Map<Report>(modelRequest);
 
@@ -39,7 +40,7 @@ namespace ReportApp.BLL.Services
 
             if (createdReport == null)
             {
-                throw new Exception("Unable to create report");
+                throw new ReportNotFoundException(newReport.ReportId);
             }
 
             var toReturn = _mapper.Map<ReportResponseDto>(createdReport);
@@ -54,13 +55,13 @@ namespace ReportApp.BLL.Services
 
             if(user is null)
             {
-                throw new Exception("user does not exist");
+                throw new UserNotFoundException(userId);
             }
 
             Report report = await _reportRepo.GetSingleByAsync(r=>r.ReportId == reportId);
             if (report is null)
             {
-                throw new Exception("report does not exist");
+                throw new ReportNotFoundException(reportId);
             }
             await _reportRepo.DeleteAsync(report);
             
@@ -101,14 +102,14 @@ namespace ReportApp.BLL.Services
 
             if (user == null)
             {
-                throw new Exception("user is not found");
+                throw new UserNotFoundException(modelRequest.UserId);
             }
 
             var userReport = await _reportRepo.GetSingleByAsync(r => r.ReportId == modelRequest.Id);
 
             if (userReport is null)
             {
-                throw new Exception("User does not have a report");
+                throw new ReportNotFoundException(userReport.ReportId);
             }
             
             _mapper.Map(modelRequest, userReport);

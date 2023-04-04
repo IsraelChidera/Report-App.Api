@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using ReportApp.BLL.ServicesContract;
 using ReportApp.DAL.Entities.ErrorModel;
+using ReportApp.DAL.Entities.Exceptions;
 using System.Net;
 
 namespace Report_App.Api.Extensions
@@ -20,11 +21,17 @@ namespace Report_App.Api.Extensions
                     var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
                     if (contextFeature != null)
                     {
-                        //($"Something went wrong: {contextFeature.Error}");
+                        context.Response.StatusCode = contextFeature.Error switch
+                        {
+                            NotFoundException => StatusCodes.Status404NotFound,
+                            _ => StatusCodes.Status500InternalServerError
+                        };
+
+                        logger.LogError($"Something went wrong: {contextFeature.Error}");
                         await context.Response.WriteAsync(new ErrorDetails()
                         {
                             StatusCode = context.Response.StatusCode,
-                            Message = "Internal Server Error.",
+                            Message = contextFeature.Error.Message,
                         }.ToString());
                     }
                 });

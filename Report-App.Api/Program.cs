@@ -37,6 +37,11 @@ namespace Report_App.Api
                     policy.RequireRole("SuperAdmin"));
             });
 
+            //Adding content negotiation
+            /*builder.Services.AddControllers(config =>
+            {
+                config.RespectBrowserAcceptHeader = true;
+            }).AddXmlDataContractSerializerFormatters();*/
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -55,9 +55,9 @@ namespace ReportApp.BLL.Services
                 throw new Exception("Email has been taken");
             }
 
-            var vendorResult = _mapper.Map<AppUsers>(vendorForRegistration);
+            AppUsers vendorResult = _mapper.Map<AppUsers>(vendorForRegistration);
 
-            var vendor = await _userManager.CreateAsync(vendorResult, vendorForRegistration.Password);
+            IdentityResult vendor = await _userManager.CreateAsync(vendorResult, vendorForRegistration.Password);
 
             if (vendor.Succeeded)
             {
@@ -97,7 +97,7 @@ namespace ReportApp.BLL.Services
 
             if (!result)
             {
-                throw new Exception("Invalid email or password");
+                throw new Exception("Invalid username");
             }
 
             return result;

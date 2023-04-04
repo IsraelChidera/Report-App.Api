@@ -19,7 +19,7 @@ namespace ReportApp.BLL.MappingProfile
         {
             CreateMap<UserForRegistrationDto, AppUsers>();
             //_mapper.Map<AppUsers>(vendorForRegistration);
-            CreateMap<VendorForRegistration, AppUsers>();
+            CreateMap<VendorForRegistration, AppUsers>(); 
 
             CreateMap<CustomerForRegistration, AppUsers>();
            
