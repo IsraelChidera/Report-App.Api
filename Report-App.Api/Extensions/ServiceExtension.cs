@@ -42,6 +42,8 @@ namespace Report_App.Api.Extensions
             services.AddTransient<IUnitOfWork, UnitOfWork<ReportDbContext>>();
             services.AddTransient<IAuthenticationService, AuthenticationService>();            
             services.AddTransient<IReportService, ReportService>();
+            services.AddTransient<IProductServices, ProductServices>();
+            services.AddTransient<IOrderService, OrderServices>();
         }
 
         public static void ConfigureCors(this IServiceCollection services)

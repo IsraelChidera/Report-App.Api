@@ -8,5 +8,6 @@ namespace ReportApp.BLL.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public IList<Report> Products { get; set; } = new List<Report>();
+        public IList<Order> Orders { get; set; } = new List<Order>();
     }
 }

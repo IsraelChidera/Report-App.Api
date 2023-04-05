@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReportApp.DAL;
 
@@ -11,9 +12,10 @@ using ReportApp.DAL;
 namespace ReportApp.DAL.Migrations
 {
     [DbContext(typeof(ReportDbContext))]
-    partial class ReportDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230405064232_AddedMoreEntities")]
+    partial class AddedMoreEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,22 +53,22 @@ namespace ReportApp.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "c55028ba-ea0f-4922-9469-d6abfb82a8b7",
-                            ConcurrencyStamp = "9e29b8b5-9840-4c26-99db-62f2a6f62f22",
+                            Id = "7a252500-7559-4a0e-a843-54c119560b7e",
+                            ConcurrencyStamp = "f4bff639-7f83-4723-a6b5-996199c6e05a",
                             Name = "Vendor",
                             NormalizedName = "VENDOR"
                         },
                         new
                         {
-                            Id = "0f29ea61-6e59-471f-ac6c-23f4fc0597b0",
-                            ConcurrencyStamp = "97e5e12d-9d2f-427d-85d0-e27e18ef3d31",
+                            Id = "48c0f1ec-b9d1-49fe-b4b0-1a3af96cea1c",
+                            ConcurrencyStamp = "359dbeb1-757d-4edc-820c-2186ffe0ca8f",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
-                            Id = "03b95a9f-4978-49b8-8092-bd67b1c47090",
-                            ConcurrencyStamp = "76102213-cfab-4c9c-a7c8-e800c3bbdbd6",
+                            Id = "f319175f-3289-40be-b77a-cbb0ba90516a",
+                            ConcurrencyStamp = "257a2ff7-5283-4a56-93c2-6d8a4468c8c0",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -251,44 +253,21 @@ namespace ReportApp.DAL.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("ReportApp.DAL.Entities.Customer", b =>
-                {
-                    b.Property<Guid>("CustomerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("CustomerName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("CustomerId");
-
-                    b.ToTable("Customer");
-                });
-
             modelBuilder.Entity("ReportApp.DAL.Entities.Order", b =>
                 {
                     b.Property<Guid>("OrderId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("AppUsersId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<Guid>("CustomerId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("OrderDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("OrderId");
 
-                    b.HasIndex("AppUsersId");
-
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("UserId1");
 
                     b.ToTable("Orders");
                 });
@@ -302,15 +281,8 @@ namespace ReportApp.DAL.Migrations
                     b.Property<Guid>("OrderId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ProductName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -525,17 +497,11 @@ namespace ReportApp.DAL.Migrations
 
             modelBuilder.Entity("ReportApp.DAL.Entities.Order", b =>
                 {
-                    b.HasOne("ReportApp.BLL.Entities.AppUsers", null)
-                        .WithMany("Orders")
-                        .HasForeignKey("AppUsersId");
+                    b.HasOne("ReportApp.BLL.Entities.AppUsers", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1");
 
-                    b.HasOne("ReportApp.DAL.Entities.Customer", "Customer")
-                        .WithMany("Orders")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ReportApp.DAL.Entities.OrderDetail", b =>
@@ -577,14 +543,7 @@ namespace ReportApp.DAL.Migrations
 
             modelBuilder.Entity("ReportApp.BLL.Entities.AppUsers", b =>
                 {
-                    b.Navigation("Orders");
-
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("ReportApp.DAL.Entities.Customer", b =>
-                {
-                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("ReportApp.DAL.Entities.Order", b =>

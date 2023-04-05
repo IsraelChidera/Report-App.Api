@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ReportApp.BLL.Dtos;
 using ReportApp.BLL.Dtos.Request;
 using ReportApp.BLL.Dtos.Response;
 using ReportApp.BLL.Entities;
@@ -33,6 +34,21 @@ namespace ReportApp.BLL.MappingProfile
             CreateMap< ReportRequestForUpdateDto, Report>();
 
             CreateMap<Report, ReportResponseForUpdateDto>();
+
+            //
+            CreateMap<ProductResponse, CreateProductRequest>();
+
+            CreateMap<CreateProductRequest, ProductResponse>();
+
+            CreateMap<Product, ProductResponse>();
+            CreateMap<Product, CreateProductRequest>();
+            CreateMap< CreateProductRequest, Product>();
+
+            CreateMap<ProductResponse, UpdateProductRequest>();
+
+            //
+            CreateMap<Order, OrderDto>();
+            CreateMap<OrderDto, Order>();
 
         }
     }
