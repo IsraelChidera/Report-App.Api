@@ -23,5 +23,21 @@ namespace Report_App.Api.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet]
+        [Route("get-all-orders")]
+        public async Task<IActionResult> GetAllOrders()
+        {
+            var result = await _orderService.GetOrders();
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("get-order")]
+        public async Task<IActionResult> GetOrder(Guid Id)
+        {
+            var result = await _orderService.GetOrder(Id);
+            return Ok(result);
+        }
     }
 }

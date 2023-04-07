@@ -10,7 +10,6 @@ namespace ReportApp.DAL.Entities
 {
     public class OrderDetail
     {
-
         public Guid OrderDetailId { get; set; }
         public string ProductName { get; set; }
         public int Quantity { get; set; }

@@ -10,18 +10,8 @@ namespace ReportApp.DAL.Entities
 {
     public class Order
     {
-        public Guid OrderId { get; set; }
-
-        public decimal Price { get; set; }
-
-        public DateTime OrderDate { get; set; } = DateTime.Now;
-        /*[ForeignKey("AppUsers")]
-        public Guid UserId { get; set; }
-
-        public AppUsers User { get; set; }*/
-
-        public Customer Customer { get; set; }
-        public ICollection<OrderDetail> OrderDetails { get; set; }
-
+        public Guid OrderId { get; set; }                       
+        public string? CustomerName { get; set; }
+        public IEnumerable<OrderDetail> OrderDetails { get; set; }
     }
 }

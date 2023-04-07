@@ -9,9 +9,16 @@ namespace ReportApp.BLL.Dtos
 {
     public class OrderDto
     {
-        public decimal Price { get; set; }
-        public DateTime OrderDate { get; set; } = DateTime.Now;
-        public Guid CustomerId { get; set; }
-        public ICollection<OrderDetailsDto> OrderDetails { get; set; }
+        public class Detail
+        {
+            public Guid ProductId { get; set; }
+            public string ProductName { get; set; }
+            public decimal Price { get; set; }
+            public int Quantity { get; set; }
+            public DateTime OrderDate { get; set; } = DateTime.Now;                       
+        }
+
+        public IEnumerable<Detail> Details { get; set;}
+        
     }
 }

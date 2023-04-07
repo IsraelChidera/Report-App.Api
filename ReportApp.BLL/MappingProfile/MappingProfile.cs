@@ -49,7 +49,13 @@ namespace ReportApp.BLL.MappingProfile
             //
             CreateMap<Order, OrderDto>();
             CreateMap<OrderDto, Order>();
+            CreateMap<Order, OrderDetail>();
+            CreateMap< OrderDetail, Order>();
+            CreateMap<OrderDetailsDto, OrderDetail>();
 
+            CreateMap<OrderDetailsDto, Order>();
+            CreateMap<Order, OrderDetailsDto>();
+            
         }
     }
 }

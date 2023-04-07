@@ -1,4 +1,5 @@
 ﻿using ReportApp.BLL.Dtos;
+using ReportApp.DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,8 @@ namespace ReportApp.BLL.ServicesContract
     {
         Task<string> CreateOrderAsync(OrderDto order);
 
-        IEnumerable<OrderDto> GetOrders(OrderDto order);
+        Task<IEnumerable<Order>> GetOrders();
 
-        Task GetOrderAsync(OrderDto order);
-
+        Task<OrderDto> GetOrder(Guid Id);
     }
 }
