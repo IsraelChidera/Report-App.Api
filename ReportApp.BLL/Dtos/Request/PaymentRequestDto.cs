@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 namespace ReportApp.BLL.Dtos.Request
 {
     public class PaymentRequestDto
-    {        
+    {
+        public Guid OrderId { get; set; }
         public decimal Amount { get; set; }
         public string Name { get; set; }
 

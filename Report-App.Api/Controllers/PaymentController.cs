@@ -15,7 +15,7 @@ namespace Report_App.Api.Controllers
 
         [HttpPost]
         [Route("make-payment")]
-        public async Task<IActionResult> MakePayment(PaymentRequestDto request)
+        public async Task<IActionResult> MakePayment([FromBody]PaymentRequestDto request)
         {
             var result = await _paymentService.MakePayment(request);
 
