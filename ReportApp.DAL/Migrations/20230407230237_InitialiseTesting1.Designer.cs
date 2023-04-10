@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReportApp.DAL;
 
@@ -11,9 +12,10 @@ using ReportApp.DAL;
 namespace ReportApp.DAL.Migrations
 {
     [DbContext(typeof(ReportDbContext))]
-    partial class ReportDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230407230237_InitialiseTesting1")]
+    partial class InitialiseTesting1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,22 +53,22 @@ namespace ReportApp.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ab1ee208-9756-4a4e-8a6f-44c624e137e8",
-                            ConcurrencyStamp = "404c2d30-d8e6-49cc-ae49-19bcfa6ea2d7",
+                            Id = "5c09b6c9-9c41-488c-94c1-75a3058a5bd9",
+                            ConcurrencyStamp = "ffb0b02e-43d1-4e6d-a93e-fcb466122d6f",
                             Name = "Vendor",
                             NormalizedName = "VENDOR"
                         },
                         new
                         {
-                            Id = "1a8cea46-d1ce-4145-806f-b0e70feab516",
-                            ConcurrencyStamp = "340649dd-62d4-487d-b7f9-262649e17aa1",
+                            Id = "519cfffd-aebc-416a-a9a0-6d2d27ade639",
+                            ConcurrencyStamp = "79b2dc08-6e3b-43e6-bb7b-dd758c7c99fc",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
-                            Id = "0deb9c70-0cb3-4073-9db2-735d892a800d",
-                            ConcurrencyStamp = "c368c9ee-7fec-4443-9b24-9349a5191391",
+                            Id = "2a6ed3bb-0dce-4d30-81d0-baf7fed2bf96",
+                            ConcurrencyStamp = "e07bcf49-9496-4591-834a-3739d47a828e",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -301,43 +303,6 @@ namespace ReportApp.DAL.Migrations
                     b.ToTable("OrderDetails");
                 });
 
-            modelBuilder.Entity("ReportApp.DAL.Entities.Payment", b =>
-                {
-                    b.Property<Guid>("PaymentId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PaymentRef")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Status")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("UserId1")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("PaymentId");
-
-                    b.HasIndex("UserId1");
-
-                    b.ToTable("Payment");
-                });
-
             modelBuilder.Entity("ReportApp.DAL.Entities.Product", b =>
                 {
                     b.Property<Guid>("ProductId")
@@ -561,15 +526,6 @@ namespace ReportApp.DAL.Migrations
                     b.Navigation("Order");
 
                     b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("ReportApp.DAL.Entities.Payment", b =>
-                {
-                    b.HasOne("ReportApp.BLL.Entities.AppUsers", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ReportApp.DAL.Entities.Product", b =>

@@ -50,8 +50,6 @@ namespace ReportApp.BLL.Services
         }
 
 
-
-
         public IEnumerable<Product> GetProduct(Guid userId)
         {
             var product = _productRepo.GetQueryable(p => p.UserId.ToString() == userId.ToString()).OrderBy(i => i.ProductId);

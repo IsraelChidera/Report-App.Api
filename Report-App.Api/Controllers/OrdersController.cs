@@ -6,7 +6,7 @@ namespace Report_App.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrdersController : Controller
+    public class OrdersController : ControllerBase
     {        
         private readonly IOrderService _orderService;        
 
@@ -17,9 +17,9 @@ namespace Report_App.Api.Controllers
 
         [HttpPost]
         [Route("add-order")]
-        public async Task<IActionResult> CreateOrder(OrderDto order)
+        public async Task<IActionResult> CreateOrder(OrderDto order, Guid userId)
         {
-           var result = await _orderService.CreateOrderAsync(order);
+           var result = await _orderService.CreateOrderAsync(order, userId);
 
             return Ok(result);
         }
@@ -40,4 +40,5 @@ namespace Report_App.Api.Controllers
             return Ok(result);
         }
     }
+
 }

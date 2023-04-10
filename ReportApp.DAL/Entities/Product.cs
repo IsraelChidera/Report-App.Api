@@ -1,10 +1,5 @@
 ﻿using ReportApp.BLL.Entities;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ReportApp.DAL.Entities
 {
@@ -16,7 +11,6 @@ namespace ReportApp.DAL.Entities
         public int Quantity { get; set; }
         public decimal Price { get; set; }
         public DateTime ExpiryDate { get; set; }
-        //public  VendorId { get; set; }
         [ForeignKey("AppUsers")]
         public Guid UserId { get; set; }
 

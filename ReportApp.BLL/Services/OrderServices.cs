@@ -2,10 +2,14 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ReportApp.BLL.Dtos;
+using ReportApp.BLL.Dtos.Request;
 using ReportApp.BLL.Entities;
 using ReportApp.BLL.ServicesContract;
+using ReportApp.BLL.TestingDtos;
 using ReportApp.DAL.Entities;
+using ReportApp.DAL.Entities.Testing;
 using ReportApp.DAL.Repository;
+using System;
 using static ReportApp.BLL.Dtos.OrderDto;
 
 namespace ReportApp.BLL.Services
@@ -16,6 +20,9 @@ namespace ReportApp.BLL.Services
         private readonly IMapper _mapper;
         private readonly UserManager<AppUsers> _userManager;
         private readonly IRepository<Order> _orderRepo;
+        private readonly IRepository<OrderOne> _orderOneRepo;
+        private readonly IRepository<Product> _productRepo;
+        private readonly IRepository<OrderDetailOne> _orderDetailOneRepo;
 
         public OrderServices(IUnitOfWork unitOfWork, IMapper mapper, UserManager<AppUsers> userManager)
         {
@@ -23,17 +30,26 @@ namespace ReportApp.BLL.Services
             _mapper = mapper;
             _userManager = userManager;
             _orderRepo = _unitOfWork.GetRepository<Order>();
+            _orderOneRepo = _unitOfWork.GetRepository<OrderOne>();
+            _productRepo = _unitOfWork.GetRepository<Product>();
+            _orderDetailOneRepo = _unitOfWork.GetRepository<OrderDetailOne>();
         }
 
-        public async Task<string> CreateOrderAsync(OrderDto order)
+        public async Task<string> CreateOrderAsync(OrderDto order, Guid userID)
         {
 
             try
             {
-                //var newOrder = _mapper.Map<Order>(order);
+                AppUsers userExists = await _userManager.FindByIdAsync(userID.ToString());
+
+                if(userExists is null)
+                {
+                    throw new Exception("User not found");
+                }
+                
                 var newOrder = new Order()
                 {
-                    CustomerName = "Israel",
+                    CustomerName = $"{userExists.FirstName} {userExists.LastName}",
                     OrderDetails = (from item in order.Details
                                     select new OrderDetail()
                                     {
@@ -96,7 +112,6 @@ namespace ReportApp.BLL.Services
             }
 
         }
-
         public async Task<IEnumerable<Order>> GetOrders()
         {
             var orders = await _orderRepo.GetAllAsync();
