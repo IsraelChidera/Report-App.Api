@@ -54,4 +54,5 @@ namespace ReportApp.DAL.Repository
         void UpdateRange(IEnumerable<T> records);
         Task UpdateRangeAsync(IEnumerable<T> records);
     }    
+
 }
