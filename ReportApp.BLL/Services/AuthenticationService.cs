@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using ReportApp.BLL.Dtos.Request;
 using ReportApp.BLL.Entities;
 using ReportApp.BLL.ServicesContract;
 using ReportApp.Infrastructure.Dtos;
@@ -23,6 +24,19 @@ namespace ReportApp.BLL.Services
             _userManager = userManager;
             _configuration = configuration;
             _mapper = mapper;
+        }
+
+
+        public async Task<IdentityResult> RegisterOrganization(OrganizationForRegistrationDto organizationRequest)
+        {
+            var userExists = await _userManager.FindByEmailAsync(organizationRequest.OrganizationEmail);
+            
+            if (userExists == null)
+            {
+
+            }
+
+            throw new NotImplementedException();
         }
 
 

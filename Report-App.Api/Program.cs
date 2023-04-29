@@ -30,6 +30,7 @@ namespace Report_App.Api
             builder.Services.ConfigureServices();
             builder.Services.AddAutoMapper(Assembly.Load("ReportApp.BLL"));
             builder.Services.ConfigureJWT(builder.Configuration);
+            builder.Services.AddHttpContextAccessor();
             //grants super admin access to all routes
             builder.Services.AddAuthorization(options =>
             {
@@ -97,10 +98,7 @@ namespace Report_App.Api
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
-
-            app.UseAuthentication();
-            app.UseAuthorization();
+          
 
             app.UseHttpsRedirection();
 

@@ -35,26 +35,7 @@ namespace ReportApp.BLL.MappingProfile
 
             CreateMap<Report, ReportResponseForUpdateDto>();
 
-            //
-            CreateMap<ProductResponse, CreateProductRequest>();
-
-            CreateMap<CreateProductRequest, ProductResponse>();
-
-            CreateMap<Product, ProductResponse>();
-            CreateMap<Product, CreateProductRequest>();
-            CreateMap< CreateProductRequest, Product>();
-
-            CreateMap<ProductResponse, UpdateProductRequest>();
-
-            //
-            CreateMap<Order, OrderDto>();
-            CreateMap<OrderDto, Order>();
-            CreateMap<Order, OrderDetail>();
-            CreateMap< OrderDetail, Order>();
-            CreateMap<OrderDetailsDto, OrderDetail>();
-
-            CreateMap<OrderDetailsDto, Order>();
-            CreateMap<Order, OrderDetailsDto>();
+            
             
         }
     }

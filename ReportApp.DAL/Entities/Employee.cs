@@ -15,10 +15,12 @@ namespace ReportApp.DAL.Entities
 
         [Required]
         [MinLength(3, ErrorMessage ="Name must be greater than 3 in length")]
-        public string? FullName { get; set; }
+        public string FullName { get; set; }
 
         [Required]
-        [MinLength(3, ErrorMessage = "Name must be greater than 3 in length")]
-        public string? Address { get; set; }
+        [EmailAddress]        
+        public string Email { get; set; }        
+
+        
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using ReportApp.BLL.Dtos.Request;
 using ReportApp.Infrastructure.Dtos;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace ReportApp.BLL.ServicesContract
     public interface IAuthenticationService
     {
         Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistration);
+        Task<IdentityResult> RegisterOrganization(OrganizationForRegistrationDto organizationRequest);
 
         Task<bool> ValidateUser(UserForAuthenticationDto userForAuth);
 
