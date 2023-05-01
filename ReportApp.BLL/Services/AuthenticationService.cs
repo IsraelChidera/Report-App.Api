@@ -88,8 +88,7 @@ namespace ReportApp.BLL.Services
         public async Task<bool> ValidateUser(UserForAuthenticationDto userForAuth)
         {
 
-
-            _user = await _userManager.FindByEmailAsync(userForAuth.UserName);
+            _user = await _userManager.FindByEmailAsync(userForAuth.Email);
 
             var result = (_user != null && await _userManager.CheckPasswordAsync(_user, userForAuth.Password));
 

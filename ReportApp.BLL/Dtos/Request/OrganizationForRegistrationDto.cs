@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace ReportApp.BLL.Dtos.Request
 {
-    public class OrganizationForRegistrationDto
+    public record OrganizationForRegistrationDto
     {
     
-        public string OrganizationName { get; set; }
+        public string OrganizationName { get; init; }
 
-        public string Username { get; set; }
+        public string Username { get; init; }
        
-        public string Email { get; set; }
+        public string Email { get; init; }
 
-        public string Address { get; set; }        
+        public string Address { get; init; }        
 
-        public string Industry { get; set; }
+        public string Industry { get; init; }
         
         public string Password { get; init; }
     }
