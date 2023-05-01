@@ -12,8 +12,8 @@ using ReportApp.DAL;
 namespace ReportApp.DAL.Migrations
 {
     [DbContext(typeof(ReportDbContext))]
-    [Migration("20230403080626_AddSeeds")]
-    partial class AddSeeds
+    [Migration("20230501085928_InitialMigrations")]
+    partial class InitialMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,22 +53,22 @@ namespace ReportApp.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "833b14a0-8354-4741-a602-2d3a03439070",
-                            ConcurrencyStamp = "dbf349f7-88eb-40f1-9de5-28899c68e3e8",
-                            Name = "Vendor",
-                            NormalizedName = "VENDOR"
+                            Id = "55af1d0d-a18d-4895-aec7-79cedf8ab9df",
+                            ConcurrencyStamp = "6bb2dbe5-2f44-454e-be93-015af29ebe24",
+                            Name = "Employee",
+                            NormalizedName = "EMPLOYEE"
                         },
                         new
                         {
-                            Id = "be19b707-94f2-458c-8e31-8f7447ad81ed",
-                            ConcurrencyStamp = "743c8da3-e372-4734-b7f0-34d94582ff57",
-                            Name = "Customer",
-                            NormalizedName = "CUSTOMER"
+                            Id = "df441ab9-1078-4d05-ad5a-bc81e1e07f94",
+                            ConcurrencyStamp = "5eaaa360-ebe0-41bd-9524-92de957d6c3c",
+                            Name = "Organization",
+                            NormalizedName = "ORGANIZATION"
                         },
                         new
                         {
-                            Id = "6db8afdd-531d-4cba-bf13-5d5d503961eb",
-                            ConcurrencyStamp = "17dcafb5-ea69-4154-beb3-839d4e95016b",
+                            Id = "9f85eb79-fd67-4571-9b12-f398a300d2ba",
+                            ConcurrencyStamp = "62613b69-819c-43a4-a5c7-ae00e0ddf027",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -213,6 +213,10 @@ namespace ReportApp.DAL.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<string>("OrganizationName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
@@ -243,6 +247,59 @@ namespace ReportApp.DAL.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("ReportApp.DAL.Entities.Employee", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("EmployeeId");
+
+                    b.Property<string>("AppUsersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUsersId");
+
+                    b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("ReportApp.DAL.Entities.Organization", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("OrganizationId");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Industry")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OrganizationName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Organizations");
                 });
 
             modelBuilder.Entity("ReportApp.DAL.Entities.Report", b =>
@@ -410,10 +467,17 @@ namespace ReportApp.DAL.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ReportApp.DAL.Entities.Employee", b =>
+                {
+                    b.HasOne("ReportApp.BLL.Entities.AppUsers", null)
+                        .WithMany("Employees")
+                        .HasForeignKey("AppUsersId");
+                });
+
             modelBuilder.Entity("ReportApp.DAL.Entities.Report", b =>
                 {
                     b.HasOne("ReportApp.BLL.Entities.AppUsers", "User")
-                        .WithMany("Products")
+                        .WithMany("Reports")
                         .HasForeignKey("UserId1");
 
                     b.Navigation("User");
@@ -421,7 +485,9 @@ namespace ReportApp.DAL.Migrations
 
             modelBuilder.Entity("ReportApp.BLL.Entities.AppUsers", b =>
                 {
-                    b.Navigation("Products");
+                    b.Navigation("Employees");
+
+                    b.Navigation("Reports");
                 });
 #pragma warning restore 612, 618
         }

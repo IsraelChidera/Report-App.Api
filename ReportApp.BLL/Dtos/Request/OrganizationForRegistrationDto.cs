@@ -11,11 +11,15 @@ namespace ReportApp.BLL.Dtos.Request
     {
     
         public string OrganizationName { get; set; }
+
+        public string Username { get; set; }
        
-        public string OrganizationEmail { get; set; }
+        public string Email { get; set; }
 
-        public string Address { get; set; }
+        public string Address { get; set; }        
 
-        public int NumberOfEmployees { get; set; }
+        public string Industry { get; set; }
+        
+        public string Password { get; init; }
     }
 }

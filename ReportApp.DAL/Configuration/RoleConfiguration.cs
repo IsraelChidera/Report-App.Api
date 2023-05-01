@@ -11,14 +11,14 @@ namespace ReportApp.DAL.Configuration
             builder.HasData(
                new IdentityRole
                {
-                   Name = "Vendor",
-                   NormalizedName = "VENDOR",
+                   Name = "Employee",
+                   NormalizedName = "EMPLOYEE",
                },
 
                new IdentityRole
                {
-                   Name = "Customer",
-                   NormalizedName = "CUSTOMER",
+                   Name = "Organization",
+                   NormalizedName = "ORGANIZATION",
                },
 
                new IdentityRole

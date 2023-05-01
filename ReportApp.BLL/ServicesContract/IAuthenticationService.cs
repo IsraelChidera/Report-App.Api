@@ -11,14 +11,12 @@ namespace ReportApp.BLL.ServicesContract
 {
     public interface IAuthenticationService
     {
-        Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistration);
+        
         Task<IdentityResult> RegisterOrganization(OrganizationForRegistrationDto organizationRequest);
 
-        Task<bool> ValidateUser(UserForAuthenticationDto userForAuth);
+        Task<IdentityResult> RegisterEmployee(EmployeeForRegistrationDto employeeRequest);
 
-        Task<IdentityResult> RegisterCustomer(CustomerForRegistration sellerForRegistration);
-
-        Task<IdentityResult> RegisterVendor(VendorForRegistration vendorForRegistration);
+        Task<bool> ValidateUser(UserForAuthenticationDto userForAuth);        
 
         Task<string> CreateToken();
     }

@@ -5,6 +5,9 @@ using Microsoft.IdentityModel.Tokens;
 using ReportApp.BLL.Dtos.Request;
 using ReportApp.BLL.Entities;
 using ReportApp.BLL.ServicesContract;
+using ReportApp.DAL.Entities;
+using ReportApp.DAL.Entities.Exceptions;
+using ReportApp.DAL.Repository;
 using ReportApp.Infrastructure.Dtos;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -18,94 +21,75 @@ namespace ReportApp.BLL.Services
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
         private AppUsers? _user;
+        private readonly IRepository<Organization> _organizationRepo;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public AuthenticationService(UserManager<AppUsers> userManager, IConfiguration configuration, IMapper mapper)
+        public AuthenticationService(UserManager<AppUsers> userManager, IUnitOfWork unitOfWork, IConfiguration configuration, IMapper mapper)
         {
             _userManager = userManager;
             _configuration = configuration;
             _mapper = mapper;
+            _unitOfWork = unitOfWork;
+            _organizationRepo = _unitOfWork.GetRepository<Organization>();
         }
 
 
         public async Task<IdentityResult> RegisterOrganization(OrganizationForRegistrationDto organizationRequest)
         {
-            var userExists = await _userManager.FindByEmailAsync(organizationRequest.OrganizationEmail);
-            
-            if (userExists == null)
-            {
 
-            }
-
-            throw new NotImplementedException();
-        }
-
-
-        public async Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistration)
-        {          
-
-            var userExists = await _userManager.FindByEmailAsync(userForRegistration.Email);
+            var userExists = await _userManager.FindByEmailAsync(organizationRequest.Email);
 
             if (userExists != null)
-            {
-                throw new Exception("Email already exists");
-            }
-            var userResult = _mapper.Map<AppUsers>(userForRegistration);
-            var result = await _userManager.CreateAsync(userResult, userForRegistration.Password);
-
-            if (result.Succeeded)
-            {
-                await _userManager.AddToRolesAsync(userResult, userForRegistration.Roles);
-            }
-
-            return result;
-        }
-
-        public async Task<IdentityResult> RegisterVendor(VendorForRegistration vendorForRegistration)
-        {
-            var userExists = await _userManager.FindByEmailAsync(vendorForRegistration.Email);
-
-            if (userExists != null)
-            {
-                throw new Exception("Email has been taken");
-            }
-
-            AppUsers vendorResult = _mapper.Map<AppUsers>(vendorForRegistration);
-
-            IdentityResult vendor = await _userManager.CreateAsync(vendorResult, vendorForRegistration.Password);
-
-            if (vendor.Succeeded)
-            {
-                await _userManager.AddToRoleAsync(vendorResult, "Vendor");
-            }
-
-            return vendor;
-        }
-
-        public async Task<IdentityResult> RegisterCustomer(CustomerForRegistration sellerForRegistration)
-        {
-            var userExists = await _userManager.FindByEmailAsync(sellerForRegistration.Email);
-
-            if(userExists != null)
             {
                 throw new Exception("Email is already taken");
             }
 
-            var sellerResult = _mapper.Map<AppUsers>(sellerForRegistration);
+            var organizationResult = _mapper.Map<AppUsers>(organizationRequest);
 
-            var seller = await _userManager.CreateAsync(sellerResult, sellerForRegistration.Password);
-            if (seller.Succeeded)
+            var organization = await _userManager.CreateAsync(organizationResult, organizationRequest.Password);
+
+            var mappedOrganization = _mapper.Map<Organization>(organizationRequest);
+            await _organizationRepo.AddAsync(mappedOrganization);
+
+            if (organization.Succeeded)
             {
-                await _userManager.AddToRoleAsync(sellerResult, "Customer");
+                await _userManager.AddToRoleAsync(organizationResult, "Organization");
+
             }
 
-            return seller;
+            return organization;
+
+
         }
-        
+
+        public async Task<IdentityResult> RegisterEmployee(EmployeeForRegistrationDto employeeRequest)
+        {
+            var userExists = _userManager.FindByEmailAsync(employeeRequest.Email);
+
+            if (userExists != null)
+            {
+                throw new EmailNotFoundException(employeeRequest.Email);
+            }
+
+            var employeeResult = _mapper.Map<AppUsers>(employeeRequest);
+
+            var newEmployee = await _userManager.CreateAsync(employeeResult, employeeRequest.Password);
+
+            if (newEmployee.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(employeeResult, "Employee");
+                _mapper.Map<Employee>(employeeRequest);
+            }
+
+            return newEmployee;
+        }
+
+
         public async Task<bool> ValidateUser(UserForAuthenticationDto userForAuth)
         {
-            
 
-            _user = await _userManager.FindByNameAsync(userForAuth.UserName);
+
+            _user = await _userManager.FindByEmailAsync(userForAuth.UserName);
 
             var result = (_user != null && await _userManager.CheckPasswordAsync(_user, userForAuth.Password));
 

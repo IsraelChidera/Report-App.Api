@@ -18,11 +18,7 @@ namespace ReportApp.BLL.MappingProfile
     {
         public MappingProfile()
         {
-            CreateMap<UserForRegistrationDto, AppUsers>();
-            //_mapper.Map<AppUsers>(vendorForRegistration);
-            CreateMap<VendorForRegistration, AppUsers>(); 
-
-            CreateMap<CustomerForRegistration, AppUsers>();
+            
            
             CreateMap<CreateVendorReportsRequest, Report>();
 
@@ -35,8 +31,9 @@ namespace ReportApp.BLL.MappingProfile
 
             CreateMap<Report, ReportResponseForUpdateDto>();
 
-            
-            
+            CreateMap<OrganizationForRegistrationDto, Organization>();
+            CreateMap< OrganizationForRegistrationDto, AppUsers>();
+            CreateMap<OrganizationForRegistrationDto, Organization>();
         }
     }
 }

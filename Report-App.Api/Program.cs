@@ -115,36 +115,32 @@ namespace Report_App.Api
 
             app.MapControllers();
 
-            // Create the SuperAdmin role and user
             using var scope = app.Services.CreateScope();
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUsers>>();
 
-            bool superAdminRoleExists = await roleManager.RoleExistsAsync("SuperAdmin");
-
-            if (!superAdminRoleExists)
+            //seeding a superadmin with a superadmin role
+            if (!await roleManager.RoleExistsAsync("SuperAdmin"))
             {
-                // Create the SuperAdmin role
-                if (!await roleManager.RoleExistsAsync("SuperAdmin"))
-                {
-                    await roleManager.CreateAsync(new IdentityRole("SuperAdmin"));
-                }
+                await roleManager.CreateAsync(new IdentityRole("SuperAdmin"));
 
                 // Create the SuperAdmin user with the role
                 var superAdmin = new AppUsers
                 {
-                    UserName = "superadmin@example.com",
-                    Email = "superadmin@example.com"
+                    OrganizationName = "Admin",
+                    UserName = "superadmin@admin.com",
+                    Email = "superadmin@admin.com"
                 };
-                var result = await userManager.CreateAsync(superAdmin, "SuperAdminPassword1!");
 
+                var result = await userManager.CreateAsync(superAdmin, "Adminpass@123");
                 if (result.Succeeded)
                 {
                     await userManager.AddToRoleAsync(superAdmin, "SuperAdmin");
                 }
+
             }
 
-            
+
 
             await app.RunAsync();
 

@@ -19,10 +19,11 @@ namespace ReportApp.DAL.Entities
 
         [Required]
         [MinLength(3, ErrorMessage = "Organization name must be greater than 3 in length")]
-        public string OrganizationName { get; set; }
+        public string OrganizationName { get; set; }        
 
         [Required]
-        public int NumberOfEmployees { get; set; }
+        [MinLength(3, ErrorMessage = "Organization name must be greater than 3 in length")]
+        public string Industry { get; set; }
 
         [Required]
         [MinLength(5, ErrorMessage = "Address must be greater than 3 in length")]

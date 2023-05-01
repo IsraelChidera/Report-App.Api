@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ReportApp.BLL.Dtos.Request;
 using ReportApp.BLL.ServicesContract;
 using ReportApp.Infrastructure.Dtos;
 
@@ -17,62 +18,19 @@ namespace Report_App.Api.Controllers
         }
 
 
-        [HttpPost]
-        //[Authorize(Policy = "SuperAdminPolicy")]
-        public async Task<IActionResult> Create([FromBody] UserForRegistrationDto userForRegistration)
+        [HttpPost("register-organization")]        
+        public async Task<IActionResult> CreateOrganization(OrganizationForRegistrationDto organization)
         {
-
-            var result = await _authenticationService.RegisterUser(userForRegistration);
-            if (!result.Succeeded)
-            {
-                foreach (var error in result.Errors)
-                {
-                    ModelState.TryAddModelError(error.Code, error.Description);
-                }
-
-                return BadRequest(ModelState);
-            }
-
-            return StatusCode(201);
-
+            var response = await _authenticationService.RegisterOrganization(organization);
+            return Ok(response);
         }
 
-        [HttpPost]
-        [Route("register/vendor")]
-        public async Task<IActionResult> CreateVendor([FromBody] VendorForRegistration vendorForRegistration)
+        [HttpPost("register-employee-by-an-organization")]
+        [Authorize(Roles = "Organization")]
+        public async Task<IActionResult> CreateEmployee([FromBody] EmployeeForRegistrationDto employee)
         {
-            var result = await _authenticationService.RegisterVendor(vendorForRegistration);
-
-            if (!result.Succeeded)
-            {
-                foreach (var error in result.Errors)
-                {
-                    ModelState.TryAddModelError(error.Code, error.Description);
-                }
-
-                return BadRequest(ModelState);
-            }
-
-            return StatusCode(201);
-        }
-
-        [HttpPost]
-        [Route("register/customer")]
-        public async Task<IActionResult> CreateCustomer([FromBody] CustomerForRegistration sellerForRegistration)
-        {
-            var result = await _authenticationService.RegisterCustomer(sellerForRegistration);
-
-            if (!result.Succeeded)
-            {
-                foreach (var error in result.Errors)
-                {
-                    ModelState.TryAddModelError(error.Code, error.Description);
-                }
-
-                return BadRequest(ModelState);
-            }
-
-            return StatusCode(201);
+            var response = await _authenticationService.RegisterEmployee(employee);
+            return Ok(response);
         }
 
         [HttpPost("login")]
