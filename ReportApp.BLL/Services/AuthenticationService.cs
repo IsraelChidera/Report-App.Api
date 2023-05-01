@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -22,15 +23,19 @@ namespace ReportApp.BLL.Services
         private readonly IMapper _mapper;
         private AppUsers? _user;
         private readonly IRepository<Organization> _organizationRepo;
+        private readonly IRepository<Employee> _employeeRepo;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AuthenticationService(UserManager<AppUsers> userManager, IUnitOfWork unitOfWork, IConfiguration configuration, IMapper mapper)
+        public AuthenticationService(UserManager<AppUsers> userManager, IHttpContextAccessor httpContextAccessor,IUnitOfWork unitOfWork, IConfiguration configuration, IMapper mapper)
         {
             _userManager = userManager;
             _configuration = configuration;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _organizationRepo = _unitOfWork.GetRepository<Organization>();
+            _employeeRepo = _unitOfWork.GetRepository<Employee>();
+            _httpContextAccessor = httpContextAccessor;
         }
 
 
@@ -64,21 +69,36 @@ namespace ReportApp.BLL.Services
 
         public async Task<IdentityResult> RegisterEmployee(EmployeeForRegistrationDto employeeRequest)
         {
-            var userExists = _userManager.FindByEmailAsync(employeeRequest.Email);
+            var organization = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name);
+            if (organization == null)
+            {
+                throw new Exception("Organization is not authenticated");
+            }
+
+            var userExists = await _userManager.FindByEmailAsync(employeeRequest.Email);
 
             if (userExists != null)
             {
-                throw new EmailNotFoundException(employeeRequest.Email);
+                throw new Exception("Email is already taken");
             }
-
-            var employeeResult = _mapper.Map<AppUsers>(employeeRequest);
+            
+            var employeeResult = new AppUsers
+            {
+                Email = employeeRequest.Email,
+                PasswordHash = employeeRequest.Password,
+                UserName = employeeRequest.UserName,
+                OrganizationName = organization,                
+            };
 
             var newEmployee = await _userManager.CreateAsync(employeeResult, employeeRequest.Password);
+            
+            var mappedEmployee = _mapper.Map<Employee>(employeeRequest);
+            await _employeeRepo.AddAsync(mappedEmployee);
 
             if (newEmployee.Succeeded)
             {
                 await _userManager.AddToRoleAsync(employeeResult, "Employee");
-                _mapper.Map<Employee>(employeeRequest);
+                
             }
 
             return newEmployee;

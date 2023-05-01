@@ -33,7 +33,9 @@ namespace ReportApp.BLL.MappingProfile
 
             CreateMap<OrganizationForRegistrationDto, Organization>();
             CreateMap< OrganizationForRegistrationDto, AppUsers>();
+            CreateMap<EmployeeForRegistrationDto, AppUsers>();
             CreateMap<OrganizationForRegistrationDto, Organization>();
+            CreateMap<EmployeeForRegistrationDto, Employee>();
         }
     }
 }

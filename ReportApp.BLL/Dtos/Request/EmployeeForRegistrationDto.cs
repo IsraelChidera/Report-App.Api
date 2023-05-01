@@ -6,16 +6,18 @@ using System.Threading.Tasks;
 
 namespace ReportApp.BLL.Dtos.Request
 {
-    public class EmployeeForRegistrationDto
+    public record EmployeeForRegistrationDto
     {
-        public string EmployeeName { get; set; }
+        public string FullName { get; init; }
 
-        public string Email { get; set; }
+        public string UserName { get; init; }
 
-        public string PhoneNumber { get; set; }
+        public string Email { get; init; }
 
-        public string Address { get; set; }
+        public string PhoneNumber { get; init; }
 
-        public string Password { get; set; }
+        public string Address { get; init; }
+
+        public string Password { get; init; }
     }
 }
