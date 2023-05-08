@@ -19,8 +19,8 @@ namespace Report_App.Api.Controllers
 
         [HttpGet]
         [Route("get-all-users")]
-        [Authorize(Roles = "Organization")]
-        public async Task<IEnumerable<AppUsers>> GetAllUsers()
+        [Authorize(Roles = "Admin")]
+        public async Task<IEnumerable<AppUsers>> GetAllAppUsers()
         {
             return await _userManager.Users.ToListAsync();            
         }
