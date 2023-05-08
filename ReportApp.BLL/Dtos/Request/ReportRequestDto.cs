@@ -32,7 +32,6 @@ namespace ReportApp.BLL.Dtos.Request
         public HazardRating HazardRating { get; set; } = HazardRating.low;
 
         public string? AdditionalInfo { get; set; }
-
-        public Guid UserId { get; set; }
+        
     }
 }

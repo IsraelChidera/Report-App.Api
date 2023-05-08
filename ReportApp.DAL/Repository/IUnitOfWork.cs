@@ -16,4 +16,5 @@ namespace ReportApp.DAL.Repository
 
         void Dispose();
     }
+
 }

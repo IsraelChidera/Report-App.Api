@@ -114,7 +114,7 @@ namespace ReportApp.BLL.Services
 
             if (!result)
             {
-                throw new Exception("Invalid username");
+                throw new Exception("Invalid Email or Password");
             }
 
             return result;

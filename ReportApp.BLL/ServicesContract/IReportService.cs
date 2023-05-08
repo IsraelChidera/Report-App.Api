@@ -12,11 +12,11 @@ namespace ReportApp.BLL.ServicesContract
     public interface IReportService
     {
         Task<ReportResponseDto> AddReportAsync(ReportRequestDto modelRequest);
-        Task DeleteReportAsync(Guid userId, Guid reportId);
+        Task DeleteReportAsync(Guid reportId);
         Task<ReportResponseForUpdateDto> UpdateReportAsync(ReportRequestForUpdateDto modelRequest);
         (Report ReportResult, string message) GetReport(int employeeID, int reportID);
         Task<IEnumerable<Report>> GetAllReportsAsync();
-        IEnumerable<Report> GetUserReports(Guid userId);
+        Task<IEnumerable<Report>> GetUserReports();
 
     }
 }
