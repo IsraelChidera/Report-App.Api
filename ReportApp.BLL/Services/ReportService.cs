@@ -143,6 +143,26 @@ namespace ReportApp.BLL.Services
             return ("Report updated successfully", result);
         }
     
-    
+        public async Task<ReportResponseDto> GetReportAsync(Guid reportId)
+        {
+            var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var user = _userManager.FindByIdAsync(userId);
+            if(user == null)
+            {
+                throw new UserNotFoundException( Guid.Parse(userId) );
+            }
+
+            var report = await _reportRepo.GetSingleByAsync(x => x.ReportId == reportId);
+            if (report == null)
+            {
+                throw new ReportNotFoundException(reportId);
+            }
+
+            var toReturn = _mapper.Map<ReportResponseDto>(report);
+            return toReturn;
+        }
+
+
     }
 }

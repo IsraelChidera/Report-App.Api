@@ -63,6 +63,19 @@ namespace Report_App.Api.Controllers
             return Ok(response);
         }
 
+        [HttpGet]
+        [Route("get-employee-report")]
+        public async Task<IActionResult> GetEmployeeReportById(Guid reportId)
+        {
+            var response = await _reportService.GetReportAsync(reportId);
+
+            if(response == null)
+            {
+                return BadRequest();
+            }
+            return Ok(response);
+        }
+
         [HttpPut]
         [Route("update-employee-report")]
         [Authorize(Roles = "Employee")]
