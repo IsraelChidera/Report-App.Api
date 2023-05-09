@@ -1,17 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using ReportApp.BLL.Entities;
 using ReportApp.BLL.ServicesContract;
 using ReportApp.DAL.Entities;
 using ReportApp.DAL.Entities.Exceptions;
 using ReportApp.DAL.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ReportApp.BLL.Services
 {
@@ -22,18 +18,18 @@ namespace ReportApp.BLL.Services
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly UserManager<AppUsers> _userManager;
         private readonly IMapper _mapper;
-        public EmployeeService(IUnitOfWork unitOfWork, UserManager<AppUsers> userManager, 
+        public EmployeeService(IUnitOfWork unitOfWork, UserManager<AppUsers> userManager,
             IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
             _unitOfWork = unitOfWork;
             _employeeRepo = _unitOfWork.GetRepository<Employee>();
             _userManager = userManager;
-            _mapper= mapper;
+            _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<IEnumerable<Employee>> GetAllEmployees()
-        {            
+        {
             var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (userId == null)
@@ -45,14 +41,14 @@ namespace ReportApp.BLL.Services
 
             var user = await _userManager.FindByIdAsync(userId);
 
-            if(user == null)
+            if (user == null)
             {
-                throw new UserNotFoundException( Guid.Parse(userId) );
+                throw new UserNotFoundException(Guid.Parse(userId));
             }
 
-            //var employees =  _employeeRepo.GetQueryable(e=>e.Id.ToString() == user.Id);
-            var employees = _employeeRepo.GetAll().ToList();
-           
+            var employees =  _employeeRepo.GetAll();
+            
+
             return employees;
         }
     }

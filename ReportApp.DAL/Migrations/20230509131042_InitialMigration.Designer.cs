@@ -12,7 +12,7 @@ using ReportApp.DAL;
 namespace ReportApp.DAL.Migrations
 {
     [DbContext(typeof(ReportDbContext))]
-    [Migration("20230509100827_InitialMigration")]
+    [Migration("20230509131042_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,22 +53,22 @@ namespace ReportApp.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "5326e07e-c964-4f18-8ecb-55aaaa865a1a",
-                            ConcurrencyStamp = "78aa60ec-fba5-4858-90a7-9a7e954a7267",
+                            Id = "6504efdc-d3de-4201-bc57-844a5780bfe6",
+                            ConcurrencyStamp = "24de958c-d646-4bb9-8d14-deee994b4e80",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         },
                         new
                         {
-                            Id = "f926755f-18f3-48aa-a22a-ea7b899faf98",
-                            ConcurrencyStamp = "2c79d641-d913-4a2f-8e4b-740e9566e148",
+                            Id = "a6208081-1c3a-4b90-8d91-fb4ef9980849",
+                            ConcurrencyStamp = "dda41085-08bd-4aa0-be0c-f8bd23d2beaf",
                             Name = "Organization",
                             NormalizedName = "ORGANIZATION"
                         },
                         new
                         {
-                            Id = "6f20fe05-3784-4cd9-90f8-1a4b02ac81e7",
-                            ConcurrencyStamp = "8e0ff711-92f1-4036-9983-33658ab55702",
+                            Id = "ba41b6de-9b12-45ef-9db7-fc6e336e5926",
+                            ConcurrencyStamp = "0a812506-5cd2-494a-b18f-44410a99f902",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -256,6 +256,10 @@ namespace ReportApp.DAL.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("EmployeeId");
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("AppUsersId")
                         .HasColumnType("nvarchar(450)");
 
@@ -264,6 +268,10 @@ namespace ReportApp.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

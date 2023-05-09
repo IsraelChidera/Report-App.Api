@@ -177,6 +177,8 @@ namespace ReportApp.DAL.Migrations
                     EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AppUsersId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
@@ -220,9 +222,9 @@ namespace ReportApp.DAL.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "5326e07e-c964-4f18-8ecb-55aaaa865a1a", "78aa60ec-fba5-4858-90a7-9a7e954a7267", "Employee", "EMPLOYEE" },
-                    { "6f20fe05-3784-4cd9-90f8-1a4b02ac81e7", "8e0ff711-92f1-4036-9983-33658ab55702", "Admin", "ADMIN" },
-                    { "f926755f-18f3-48aa-a22a-ea7b899faf98", "2c79d641-d913-4a2f-8e4b-740e9566e148", "Organization", "ORGANIZATION" }
+                    { "6504efdc-d3de-4201-bc57-844a5780bfe6", "24de958c-d646-4bb9-8d14-deee994b4e80", "Employee", "EMPLOYEE" },
+                    { "a6208081-1c3a-4b90-8d91-fb4ef9980849", "dda41085-08bd-4aa0-be0c-f8bd23d2beaf", "Organization", "ORGANIZATION" },
+                    { "ba41b6de-9b12-45ef-9db7-fc6e336e5926", "0a812506-5cd2-494a-b18f-44410a99f902", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
