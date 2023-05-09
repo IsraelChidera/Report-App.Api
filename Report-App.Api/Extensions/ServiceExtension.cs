@@ -43,6 +43,7 @@ namespace Report_App.Api.Extensions
             services.AddTransient<IAuthenticationService, AuthenticationService>();            
             services.AddTransient<IReportService, ReportService>();
             services.AddTransient<IEmployeeService, EmployeeService>();
+            services.AddTransient<IOrganizationService, OrganizationService>();
         }
 
         public static void ConfigureCors(this IServiceCollection services)

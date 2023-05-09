@@ -45,7 +45,7 @@ namespace ReportApp.BLL.Services
                 throw new UserNotFoundException(Guid.Parse(userId));
             }
 
-            var employees = _employeeRepo.GetAll();
+            var employees = await _employeeRepo.GetAllAsync();
 
 
             return employees;

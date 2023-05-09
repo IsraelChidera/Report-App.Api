@@ -30,7 +30,7 @@ namespace ReportApp.BLL.Services
             _mapper = mapper;            
         }
 
-        public async Task<ReportResponseDto> AddReportAsync(ReportRequestDto modelRequest)
+        public async Task<(string, ReportResponseDto)> AddReportAsync(ReportRequestDto modelRequest)
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -46,18 +46,19 @@ namespace ReportApp.BLL.Services
             newReport.UserId = Guid.Parse(userExists.Id);
             var createdReport = await _reportRepo.AddAsync(newReport);
 
-            if (createdReport == null)
-            {
-                throw new ReportNotFoundException(newReport.ReportId);
-            }
-
+           
             var toReturn = _mapper.Map<ReportResponseDto>(createdReport);
 
-            return toReturn;
+            if (createdReport == null)
+            {
+                return ("Failed attempt to create a new report", toReturn);
+            }
+
+            return ("Report card created successfully", toReturn);
 
         }
 
-        public async Task DeleteReportAsync(Guid reportId)
+        public async Task<string> DeleteReportAsync(Guid reportId)
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             AppUsers user = await _userManager.FindByIdAsync( userId );
@@ -73,7 +74,8 @@ namespace ReportApp.BLL.Services
                 throw new ReportNotFoundException(reportId);
             }
             await _reportRepo.DeleteAsync(report);
-            
+
+            return "Report deleted sucessfully";
         }
 
         public async Task<IEnumerable<Report>> GetAllReportsAsync()
@@ -86,12 +88,7 @@ namespace ReportApp.BLL.Services
             }
 
             return reports;
-        }
-
-        public (Report ReportResult, string message) GetReport(int employeeID, int reportID)
-        {
-            throw new NotImplementedException();
-        }
+        }       
 
         public async Task<IEnumerable<Report>>  GetUserReports()
         {
@@ -114,7 +111,7 @@ namespace ReportApp.BLL.Services
             return userReports;
         }
 
-        public async Task<ReportResponseForUpdateDto> UpdateReportAsync(ReportRequestForUpdateDto modelRequest)
+        public async Task<(string, ReportResponseForUpdateDto)> UpdateReportAsync(ReportRequestForUpdateDto modelRequest)
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             AppUsers user = await _userManager.FindByIdAsync(userId);
@@ -131,12 +128,18 @@ namespace ReportApp.BLL.Services
                 throw new ReportNotFoundException(modelRequest.Id);
             }
             
-            _mapper.Map(modelRequest, userReport);
-            //CCreateMap<Report, ReportResponseForUpdateDto>();  
+            _mapper.Map(modelRequest, userReport);            
             Report reportUpdated = await _reportRepo.UpdateAsync(userReport);
             var result = _mapper.Map<ReportResponseForUpdateDto>(reportUpdated);
 
-            return result;
+            if(reportUpdated == null)
+            {
+                return ("Failed attempt to update report card", result);
+            }
+
+            return ("Report updated successfully", result);
         }
+    
+    
     }
 }

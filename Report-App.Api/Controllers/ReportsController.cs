@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ReportApp.BLL.Dtos.Request;
+using ReportApp.BLL.Dtos.Response;
 using ReportApp.BLL.Services;
 using ReportApp.BLL.ServicesContract;
 
@@ -20,16 +21,15 @@ namespace Report_App.Api.Controllers
         [HttpPost]
         [Route("add-report")]
         [Authorize(Roles = "Employee")]
-        public async Task<IActionResult> CreateUserReport([FromBody] ReportRequestDto modelRequest)
+        public async Task<ActionResult<(string, ReportResponseDto)>> CreateUserReport([FromBody] ReportRequestDto modelRequest)
         {
             if(!ModelState.IsValid)
             {
                 return BadRequest();
             }
-            var result = await _reportService.AddReportAsync(modelRequest);
+            var response = await _reportService.AddReportAsync(modelRequest);
 
-            return StatusCode(201, result);
-
+            return Ok(new {message = response.Item1, report = response.Item2});
         }
 
         
@@ -40,27 +40,42 @@ namespace Report_App.Api.Controllers
         {
             var result = await _reportService.GetAllReportsAsync();
 
+            if(result == null)
+            {
+                BadRequest();
+            }
+
             return Ok(result);
         }
 
         [HttpGet]
         [Route("get-user-reports")]
-        [Authorize(Roles = "Employee")]
+        [Authorize(Roles = "Employee, Organization")]
         public async Task<IActionResult> GetReports()
         {
-            var result = await _reportService.GetUserReports();
+            var response = await _reportService.GetUserReports();
 
-            return Ok(result);
+            if(response == null)
+            {
+                BadRequest();
+            }
+
+            return Ok(response);
         }
 
         [HttpPut]
         [Route("update-user-report")]
         [Authorize(Roles = "Employee")]
-        public async Task<IActionResult> UpdateUserReport([FromBody]ReportRequestForUpdateDto modelRequest)
+        public async Task<ActionResult<(string, ReportResponseForUpdateDto)>> UpdateUserReport([FromBody]ReportRequestForUpdateDto modelRequest)
         {
-            var result = await _reportService.UpdateReportAsync(modelRequest);
-            
-            return NoContent();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var response = await _reportService.UpdateReportAsync(modelRequest);
+
+            return Ok(new { message = response.Item1, report = response.Item2 });
         }
 
         [HttpDelete]
@@ -68,9 +83,14 @@ namespace Report_App.Api.Controllers
         [Authorize(Roles = "Employee")]
         public async Task<IActionResult> DeleteReport(Guid reportId)
         {
-            await _reportService.DeleteReportAsync(reportId);
+            var result = await _reportService.DeleteReportAsync(reportId);
 
-            return NoContent();
+            if(result == null)
+            {
+                return BadRequest();
+            }
+
+            return Ok(result);            
         }
 
     }

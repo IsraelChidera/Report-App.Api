@@ -11,10 +11,9 @@ namespace ReportApp.BLL.ServicesContract
 {
     public interface IReportService
     {
-        Task<ReportResponseDto> AddReportAsync(ReportRequestDto modelRequest);
-        Task DeleteReportAsync(Guid reportId);
-        Task<ReportResponseForUpdateDto> UpdateReportAsync(ReportRequestForUpdateDto modelRequest);
-        (Report ReportResult, string message) GetReport(int employeeID, int reportID);
+        Task<(string, ReportResponseDto)> AddReportAsync(ReportRequestDto modelRequest);
+        Task<string> DeleteReportAsync(Guid reportId);
+        Task<(string, ReportResponseForUpdateDto)> UpdateReportAsync(ReportRequestForUpdateDto modelRequest);        
         Task<IEnumerable<Report>> GetAllReportsAsync();
         Task<IEnumerable<Report>> GetUserReports();
 

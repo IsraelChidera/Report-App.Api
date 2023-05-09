@@ -12,8 +12,7 @@ using static ReportApp.DAL.Enum.RiskProbabilityEnum;
 namespace ReportApp.BLL.Dtos.Response
 {
     public class ReportResponseForUpdateDto
-    {
-        public Guid Id { get; set; }
+    {        
 
         [Required(ErrorMessage = "Location is a required field")]
         public string Location { get; set; }
@@ -34,8 +33,7 @@ namespace ReportApp.BLL.Dtos.Response
         public HazardRating HazardRating { get; set; } = HazardRating.low;
 
         public string? AdditionalInfo { get; set; }
-
-        public Guid UserId { get; set; }
+        
 
     }
 }

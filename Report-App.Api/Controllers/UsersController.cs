@@ -14,17 +14,17 @@ namespace Report_App.Api.Controllers
 
         public UsersController(UserManager<AppUsers> userManager)
         {
-            _userManager= userManager;
+            _userManager = userManager;
         }
 
         [HttpGet]
         [Route("get-all-users")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "SuperAdmin, Admin")]
         public async Task<IEnumerable<AppUsers>> GetAllAppUsers()
         {
-            return await _userManager.Users.ToListAsync();            
+            return await _userManager.Users.ToListAsync();
         }
 
-        
+
     }
 }

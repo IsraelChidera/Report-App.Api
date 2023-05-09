@@ -19,7 +19,7 @@ namespace Report_App.Api.Controllers
 
         [HttpGet]
         [Route("get-employees")]
-        [Authorize(Roles = "Organization")]
+        [Authorize(Roles = "Organization, SuperAdmin, Admin")]
         public async Task<ActionResult<IEnumerable<Employee>>> GetAllOrganizationWorker()
         {
             var response = await _employeeService.GetAllEmployees();
