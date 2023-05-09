@@ -8,6 +8,7 @@ namespace ReportApp.BLL.Dtos.Response
 {
     public class ReportResponseDto
     {        
+        public string ReportId { get; set; }
 
         [Required(ErrorMessage = "Location is a required field")]
         public string Location { get; set; }

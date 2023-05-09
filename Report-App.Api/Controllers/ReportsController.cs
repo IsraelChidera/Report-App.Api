@@ -19,7 +19,7 @@ namespace Report_App.Api.Controllers
         }
 
         [HttpPost]
-        [Route("add-report")]
+        [Route("add-employee-report")]
         [Authorize(Roles = "Employee")]
         public async Task<ActionResult<(string, ReportResponseDto)>> CreateUserReport([FromBody] ReportRequestDto modelRequest)
         {
@@ -34,9 +34,9 @@ namespace Report_App.Api.Controllers
 
         
         [HttpGet]
-        [Route("get-all-reports")]
+        [Route("get-all-employees-reports")]
         [Authorize(Roles = "Organization")]
-        public async Task<IActionResult> GetAllReports()
+        public async Task<ActionResult<IEnumerable<ReportResponseDto> >> GetAllReports()
         {
             var result = await _reportService.GetAllReportsAsync();
 
@@ -49,11 +49,11 @@ namespace Report_App.Api.Controllers
         }
 
         [HttpGet]
-        [Route("get-user-reports")]
+        [Route("get-employee-reports")]
         [Authorize(Roles = "Employee, Organization")]
-        public async Task<IActionResult> GetReports()
+        public async Task<ActionResult< IEnumerable<ReportResponseDto> >> GetEmployeeReports()
         {
-            var response = await _reportService.GetUserReports();
+            var response = await _reportService.GetUserReportsAsync();
 
             if(response == null)
             {
@@ -64,24 +64,24 @@ namespace Report_App.Api.Controllers
         }
 
         [HttpPut]
-        [Route("update-user-report")]
+        [Route("update-employee-report")]
         [Authorize(Roles = "Employee")]
-        public async Task<ActionResult<(string, ReportResponseForUpdateDto)>> UpdateUserReport([FromBody]ReportRequestForUpdateDto modelRequest)
+        public async Task<ActionResult<(string, ReportResponseForUpdateDto)>> UpdateEmployeeReport([FromBody]ReportRequestForUpdateDto modelRequest)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
-            var response = await _reportService.UpdateReportAsync(modelRequest);
+            var response = await _reportService.UpdateUserReportAsync(modelRequest);
 
             return Ok(new { message = response.Item1, report = response.Item2 });
         }
 
         [HttpDelete]
-        [Route("delete-report")]
+        [Route("delete-employee-report-by-id")]
         [Authorize(Roles = "Employee")]
-        public async Task<IActionResult> DeleteReport(Guid reportId)
+        public async Task<IActionResult> DeletEmployeeeReport(Guid reportId)
         {
             var result = await _reportService.DeleteReportAsync(reportId);
 

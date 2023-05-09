@@ -78,7 +78,7 @@ namespace ReportApp.BLL.Services
             return "Report deleted sucessfully";
         }
 
-        public async Task<IEnumerable<Report>> GetAllReportsAsync()
+        public async Task<IEnumerable<ReportResponseDto>> GetAllReportsAsync()
         {
             var reports = await _reportRepo.GetAllAsync();
 
@@ -87,10 +87,11 @@ namespace ReportApp.BLL.Services
                 throw new InvalidOperationException("No reports found");
             }
 
-            return reports;
+            var toReturn = _mapper.Map<List<ReportResponseDto>>(reports);
+            return toReturn;
         }       
 
-        public async Task<IEnumerable<Report>>  GetUserReports()
+        public async Task<IEnumerable<ReportResponseDto>>  GetUserReportsAsync()
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -108,10 +109,12 @@ namespace ReportApp.BLL.Services
                 throw new Exception($"User with {userId} does not have any report");
             }
 
-            return userReports;
+            var toReturn = _mapper.Map< IEnumerable<ReportResponseDto> >(userReports);
+
+            return toReturn;
         }
 
-        public async Task<(string, ReportResponseForUpdateDto)> UpdateReportAsync(ReportRequestForUpdateDto modelRequest)
+        public async Task<(string, ReportResponseForUpdateDto)> UpdateUserReportAsync(ReportRequestForUpdateDto modelRequest)
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             AppUsers user = await _userManager.FindByIdAsync(userId);
