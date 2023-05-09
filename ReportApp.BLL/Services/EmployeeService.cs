@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using ReportApp.BLL.Entities;
 using ReportApp.BLL.ServicesContract;
 using ReportApp.DAL.Entities;
@@ -46,8 +45,8 @@ namespace ReportApp.BLL.Services
                 throw new UserNotFoundException(Guid.Parse(userId));
             }
 
-            var employees =  _employeeRepo.GetAll();
-            
+            var employees = _employeeRepo.GetAll();
+
 
             return employees;
         }

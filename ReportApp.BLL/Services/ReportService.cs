@@ -43,7 +43,7 @@ namespace ReportApp.BLL.Services
             }
 
             var newReport = _mapper.Map<Report>(modelRequest);
-
+            newReport.UserId = Guid.Parse(userExists.Id);
             var createdReport = await _reportRepo.AddAsync(newReport);
 
             if (createdReport == null)
@@ -104,7 +104,7 @@ namespace ReportApp.BLL.Services
                 throw new UserNotFoundException( Guid.Parse(userId) );
             }
 
-            var userReports = _reportRepo.GetQueryable(r => r.UserId.ToString() == userId.ToString()).OrderBy(i => i.ReportId);
+            var userReports = _reportRepo.GetQueryable(r => r.UserId.ToString() == user.Id.ToString()).OrderBy(i => i.ReportId);
 
             if (userReports is null)
             {
