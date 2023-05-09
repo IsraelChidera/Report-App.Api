@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ReportApp.DAL.Migrations
 {
-    public partial class InitialMigrations : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -220,9 +220,9 @@ namespace ReportApp.DAL.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "55af1d0d-a18d-4895-aec7-79cedf8ab9df", "6bb2dbe5-2f44-454e-be93-015af29ebe24", "Employee", "EMPLOYEE" },
-                    { "9f85eb79-fd67-4571-9b12-f398a300d2ba", "62613b69-819c-43a4-a5c7-ae00e0ddf027", "Admin", "ADMIN" },
-                    { "df441ab9-1078-4d05-ad5a-bc81e1e07f94", "5eaaa360-ebe0-41bd-9524-92de957d6c3c", "Organization", "ORGANIZATION" }
+                    { "5326e07e-c964-4f18-8ecb-55aaaa865a1a", "78aa60ec-fba5-4858-90a7-9a7e954a7267", "Employee", "EMPLOYEE" },
+                    { "6f20fe05-3784-4cd9-90f8-1a4b02ac81e7", "8e0ff711-92f1-4036-9983-33658ab55702", "Admin", "ADMIN" },
+                    { "f926755f-18f3-48aa-a22a-ea7b899faf98", "2c79d641-d913-4a2f-8e4b-740e9566e148", "Organization", "ORGANIZATION" }
                 });
 
             migrationBuilder.InsertData(

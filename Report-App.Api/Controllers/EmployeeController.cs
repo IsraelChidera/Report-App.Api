@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ReportApp.BLL.ServicesContract;
 using ReportApp.DAL.Entities;
@@ -16,7 +17,9 @@ namespace Report_App.Api.Controllers
         }
 
 
-        [HttpGet("get-employees")]
+        [HttpGet]
+        [Route("get-employees")]
+        [Authorize(Roles = "Organization")]
         public async Task<ActionResult<IEnumerable<Employee>>> GetAllOrganizationWorker()
         {
             var response = await _employeeService.GetAllEmployees();

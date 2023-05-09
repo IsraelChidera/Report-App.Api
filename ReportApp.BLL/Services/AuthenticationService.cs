@@ -7,7 +7,6 @@ using ReportApp.BLL.Dtos.Request;
 using ReportApp.BLL.Entities;
 using ReportApp.BLL.ServicesContract;
 using ReportApp.DAL.Entities;
-using ReportApp.DAL.Entities.Exceptions;
 using ReportApp.DAL.Repository;
 using ReportApp.Infrastructure.Dtos;
 using System.IdentityModel.Tokens.Jwt;
@@ -27,7 +26,7 @@ namespace ReportApp.BLL.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AuthenticationService(UserManager<AppUsers> userManager, IHttpContextAccessor httpContextAccessor,IUnitOfWork unitOfWork, IConfiguration configuration, IMapper mapper)
+        public AuthenticationService(UserManager<AppUsers> userManager, IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork, IConfiguration configuration, IMapper mapper)
         {
             _userManager = userManager;
             _configuration = configuration;
@@ -81,24 +80,24 @@ namespace ReportApp.BLL.Services
             {
                 throw new Exception("Email is already taken");
             }
-            
+
             var employeeResult = new AppUsers
             {
                 Email = employeeRequest.Email,
                 PasswordHash = employeeRequest.Password,
                 UserName = employeeRequest.UserName,
-                OrganizationName = organization,                
+                OrganizationName = organization,
             };
 
             var newEmployee = await _userManager.CreateAsync(employeeResult, employeeRequest.Password);
-            
+
             var mappedEmployee = _mapper.Map<Employee>(employeeRequest);
             await _employeeRepo.AddAsync(mappedEmployee);
 
             if (newEmployee.Succeeded)
             {
                 await _userManager.AddToRoleAsync(employeeResult, "Employee");
-                
+
             }
 
             return newEmployee;
@@ -129,9 +128,9 @@ namespace ReportApp.BLL.Services
             return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
         }
 
-        private SigningCredentials GetSigningCredentials()
+        private static SigningCredentials GetSigningCredentials()
         {
-            var key = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("REPORTAPISECRET") ?? "Fk24632Pz3gyJLYeYqJ6D8qELyNPUubr8vstypCgfMAC8Jyb3B");
+            var key = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("REPORTAPISECRET"));
             var secret = new SymmetricSecurityKey(key);
             return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
         }
@@ -140,8 +139,10 @@ namespace ReportApp.BLL.Services
         {
             var claims = new List<Claim>
             {
-               new Claim(ClaimTypes.Name, _user.UserName),
-               new Claim(ClaimTypes.Role, "SuperAdmin")
+                new Claim(JwtRegisteredClaimNames.Sub, _user.Id.ToString()),
+                new Claim(ClaimTypes.Name, _user.UserName),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.NameIdentifier, _user.Id.ToString())
             };
 
             var roles = await _userManager.GetRolesAsync(_user);
@@ -155,14 +156,16 @@ namespace ReportApp.BLL.Services
         private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)
         {
             var jwtSettings = _configuration.GetSection("JwtSettings");
+
             var tokenOptions = new JwtSecurityToken
             (
-            issuer: jwtSettings["validIssuer"],
-            audience: jwtSettings["validAudience"],
-            claims: claims,
-            expires: DateTime.Now.AddMinutes(Convert.ToDouble(jwtSettings["expires"])),
-            signingCredentials: signingCredentials
+                issuer: jwtSettings["validIssuer"],
+                audience: jwtSettings["validAudience"],
+                claims: claims,
+                expires: DateTime.Now.AddMinutes(Convert.ToDouble(jwtSettings["expires"])),
+                signingCredentials: signingCredentials
             );
+
             return tokenOptions;
         }
 

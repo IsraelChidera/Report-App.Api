@@ -32,11 +32,11 @@ namespace Report_App.Api
             builder.Services.ConfigureJWT(builder.Configuration);
             builder.Services.AddHttpContextAccessor();
             //grants super admin access to all routes
-            builder.Services.AddAuthorization(options =>
+           /* builder.Services.AddAuthorization(options =>
             {
                 options.AddPolicy("SuperAdminPolicy", policy =>
                     policy.RequireRole("SuperAdmin"));
-            });
+            });*/
 
             //Adding content negotiation
             /*builder.Services.AddControllers(config =>

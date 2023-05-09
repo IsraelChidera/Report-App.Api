@@ -12,8 +12,8 @@ using ReportApp.DAL;
 namespace ReportApp.DAL.Migrations
 {
     [DbContext(typeof(ReportDbContext))]
-    [Migration("20230501085928_InitialMigrations")]
-    partial class InitialMigrations
+    [Migration("20230509100827_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,22 +53,22 @@ namespace ReportApp.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "55af1d0d-a18d-4895-aec7-79cedf8ab9df",
-                            ConcurrencyStamp = "6bb2dbe5-2f44-454e-be93-015af29ebe24",
+                            Id = "5326e07e-c964-4f18-8ecb-55aaaa865a1a",
+                            ConcurrencyStamp = "78aa60ec-fba5-4858-90a7-9a7e954a7267",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         },
                         new
                         {
-                            Id = "df441ab9-1078-4d05-ad5a-bc81e1e07f94",
-                            ConcurrencyStamp = "5eaaa360-ebe0-41bd-9524-92de957d6c3c",
+                            Id = "f926755f-18f3-48aa-a22a-ea7b899faf98",
+                            ConcurrencyStamp = "2c79d641-d913-4a2f-8e4b-740e9566e148",
                             Name = "Organization",
                             NormalizedName = "ORGANIZATION"
                         },
                         new
                         {
-                            Id = "9f85eb79-fd67-4571-9b12-f398a300d2ba",
-                            ConcurrencyStamp = "62613b69-819c-43a4-a5c7-ae00e0ddf027",
+                            Id = "6f20fe05-3784-4cd9-90f8-1a4b02ac81e7",
+                            ConcurrencyStamp = "8e0ff711-92f1-4036-9983-33658ab55702",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });

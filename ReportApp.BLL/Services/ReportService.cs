@@ -38,7 +38,8 @@ namespace ReportApp.BLL.Services
 
             if (userExists == null)
             {
-                throw new UserNotFoundException( Guid.Parse(userId) );
+                //throw new UserNotFoundException( Guid.Parse(userId) );
+                throw new Exception("User not found!");
             }
 
             var newReport = _mapper.Map<Report>(modelRequest);

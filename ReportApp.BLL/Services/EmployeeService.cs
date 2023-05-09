@@ -33,8 +33,15 @@ namespace ReportApp.BLL.Services
         }
 
         public async Task<IEnumerable<Employee>> GetAllEmployees()
-        {
+        {            
             var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (userId == null)
+            {
+                //throw new UserNotFoundException(Guid.Parse(userId));
+                throw new Exception("Not authenticated to perform this operation");
+            }
+
 
             var user = await _userManager.FindByIdAsync(userId);
 
@@ -43,8 +50,8 @@ namespace ReportApp.BLL.Services
                 throw new UserNotFoundException( Guid.Parse(userId) );
             }
 
-            var employees =  _employeeRepo.GetQueryable(e=>e.Id.ToString() == user.Id);
-            
+            //var employees =  _employeeRepo.GetQueryable(e=>e.Id.ToString() == user.Id);
+            var employees = _employeeRepo.GetAll().ToList();
            
             return employees;
         }
