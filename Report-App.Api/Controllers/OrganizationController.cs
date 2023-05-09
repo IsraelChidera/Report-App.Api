@@ -16,7 +16,7 @@ namespace Report_App.Api.Controllers
         }
 
         [HttpGet]
-        [Route("get-all-organizations")]
+        [Route("all-organizations")]
         [Authorize("SuperAdminm, Admin")]
         public async Task<IActionResult> GetAllOrganization()
         {

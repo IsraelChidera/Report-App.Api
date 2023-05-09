@@ -18,7 +18,7 @@ namespace Report_App.Api.Controllers
 
 
         [HttpGet]
-        [Route("get-employees")]
+        [Route("all-employees")]
         [Authorize(Roles = "Organization, SuperAdmin, Admin")]
         public async Task<ActionResult<IEnumerable<Employee>>> GetAllOrganizationWorker()
         {

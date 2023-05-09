@@ -34,7 +34,7 @@ namespace Report_App.Api.Controllers
 
         
         [HttpGet]
-        [Route("get-all-employees-reports")]
+        [Route("all-employees-reports")]
         [Authorize(Roles = "Organization")]
         public async Task<ActionResult<IEnumerable<ReportResponseDto> >> GetAllReports()
         {
@@ -49,7 +49,7 @@ namespace Report_App.Api.Controllers
         }
 
         [HttpGet]
-        [Route("get-employee-reports")]
+        [Route("employee-reports")]
         [Authorize(Roles = "Employee, Organization")]
         public async Task<ActionResult< IEnumerable<ReportResponseDto> >> GetEmployeeReports()
         {
@@ -63,8 +63,7 @@ namespace Report_App.Api.Controllers
             return Ok(response);
         }
 
-        [HttpGet]
-        [Route("get-employee-report")]
+        [HttpGet("employee-report/{reportId}")]        
         public async Task<IActionResult> GetEmployeeReportById(Guid reportId)
         {
             var response = await _reportService.GetReportAsync(reportId);
@@ -73,6 +72,7 @@ namespace Report_App.Api.Controllers
             {
                 return BadRequest();
             }
+
             return Ok(response);
         }
 
@@ -91,10 +91,9 @@ namespace Report_App.Api.Controllers
             return Ok(new { message = response.Item1, report = response.Item2 });
         }
 
-        [HttpDelete]
-        [Route("delete-employee-report-by-id")]
+        [HttpDelete("employee-report/{reportId}")]        
         [Authorize(Roles = "Employee")]
-        public async Task<IActionResult> DeletEmployeeeReport(Guid reportId)
+        public async Task<IActionResult> DeletEmployeeeReportById(Guid reportId)
         {
             var result = await _reportService.DeleteReportAsync(reportId);
 

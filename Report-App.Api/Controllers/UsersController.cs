@@ -18,7 +18,7 @@ namespace Report_App.Api.Controllers
         }
 
         [HttpGet]
-        [Route("get-all-users")]
+        [Route("all-users")]
         [Authorize(Roles = "SuperAdmin, Admin")]
         public async Task<IEnumerable<AppUsers>> GetAllAppUsers()
         {
