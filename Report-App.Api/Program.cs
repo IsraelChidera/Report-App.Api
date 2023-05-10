@@ -49,7 +49,7 @@ namespace Report_App.Api
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(c =>
             {
-                //c.EnableAnnotations();
+                c.EnableAnnotations();
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Report-App", Version = "v1" });
 
 
