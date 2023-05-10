@@ -29,7 +29,6 @@ namespace Report_App.Api.Controllers
         )]
         [SwaggerResponse(200, "The report was added successfully.", typeof(object))]
         [SwaggerResponse(400, "The request was invalid.", null)]
-
         public async Task<ActionResult<(string, ReportResponseDto)>> CreateUserReport([FromBody] ReportRequestDto modelRequest)
         {
             if (!ModelState.IsValid)
@@ -43,11 +42,7 @@ namespace Report_App.Api.Controllers
 
 
 
-        
-        /// <summary>
-        /// Get all employee reports
-        /// </summary>
-        /// <returns>A list of all employee reports</returns>
+                
         [HttpGet]
         [Route("all-employees-reports")]
         [Authorize(Roles = "Organization")]
