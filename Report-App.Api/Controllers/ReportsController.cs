@@ -51,6 +51,10 @@ namespace Report_App.Api.Controllers
         [HttpGet]
         [Route("all-employees-reports")]
         [Authorize(Roles = "Organization")]
+        [SwaggerOperation(
+            Summary = "Get all reports by all amployees",
+            Description = "Get all employees' reports with their specified details."           
+        )]
         [SwaggerResponse(200, "A list of all employee reports", typeof(IEnumerable<ReportResponseDto>))]
         [SwaggerResponse(401, "Unauthorized")]
         [SwaggerResponse(404, "No reports found")]
@@ -113,6 +117,12 @@ namespace Report_App.Api.Controllers
         [HttpPut]
         [Route("update-employee-report")]
         [Authorize(Roles = "Employee")]
+        [SwaggerOperation(
+            Summary = "Update an existing employee's report",
+            Description = "Updates an existing report for an employee with the specified details.",
+            OperationId = "CreateUserReport",
+            Tags = new[] { "Reports" }
+        )]
         [SwaggerResponse(StatusCodes.Status200OK, "Returns the updated report and a success message.", typeof((string, ReportResponseForUpdateDto)))]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Invalid request data provided.")]
         public async Task<ActionResult<(string, ReportResponseForUpdateDto)>> UpdateEmployeeReport([FromBody] ReportRequestForUpdateDto modelRequest)
@@ -133,6 +143,10 @@ namespace Report_App.Api.Controllers
         
         [HttpDelete("employee-report/{reportId}")]
         [Authorize(Roles = "Employee")]
+        [SwaggerOperation(
+            Summary = "Delete a report for an employee",
+            Description = "Delete an employee report with the specified Id."            
+        )]
         [SwaggerResponse(200, "The report was successfully deleted.", typeof(ReportResponseDto))]
         [SwaggerResponse(400, "The report could not be found.")]
         public async Task<IActionResult> DeletEmployeeeReportById(Guid reportId)

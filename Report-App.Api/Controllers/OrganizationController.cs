@@ -22,6 +22,10 @@ namespace Report_App.Api.Controllers
         [HttpGet]
         [Route("all-organizations")]
         [Authorize("SuperAdminm, Admin")]
+        [SwaggerOperation(
+            Summary = "Get all organizations",
+            Description = "Get all authenticated organizations with their details."            
+        )]
         [SwaggerResponse(StatusCodes.Status200OK, "Returns all organizations", typeof(IEnumerable<Organization>))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, "Unauthorized")]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Invalid request data provided.")]
