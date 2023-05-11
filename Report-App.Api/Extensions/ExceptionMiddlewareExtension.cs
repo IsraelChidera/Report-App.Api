@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.Extensions.Logging;
 using ReportApp.BLL.ServicesContract;
 using ReportApp.DAL.Entities.ErrorModel;
 using ReportApp.DAL.Entities.Exceptions;

@@ -277,7 +277,7 @@ namespace ReportApp.DAL.Migrations
 
                     b.HasIndex("AppUsersId");
 
-                    b.ToTable("Employees");
+                    b.ToTable("Employees", (string)null);
                 });
 
             modelBuilder.Entity("ReportApp.DAL.Entities.Organization", b =>
@@ -305,7 +305,7 @@ namespace ReportApp.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Organizations");
+                    b.ToTable("Organizations", (string)null);
                 });
 
             modelBuilder.Entity("ReportApp.DAL.Entities.Report", b =>
@@ -352,7 +352,7 @@ namespace ReportApp.DAL.Migrations
 
                     b.HasIndex("UserId1");
 
-                    b.ToTable("Reports");
+                    b.ToTable("Reports", (string)null);
 
                     b.HasData(
                         new

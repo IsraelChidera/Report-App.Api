@@ -13,20 +13,18 @@ namespace ReportApp.DAL.Entities
         [Column("OrganizationId")]
         public Guid Id { get; set; }
 
-        [Required]
-        [EmailAddress]
+        
         public string Email { get; set; }
 
-        [Required]
-        [MinLength(3, ErrorMessage = "Organization name must be greater than 3 in length")]
-        public string OrganizationName { get; set; }        
+        
+        public string OrganizationName { get; set; }     
+        
 
-        [Required]
-        [MinLength(3, ErrorMessage = "Organization name must be greater than 3 in length")]
         public string Industry { get; set; }
 
-        [Required]
-        [MinLength(5, ErrorMessage = "Address must be greater than 3 in length")]
+        
         public string? Address { get; set; }
+
+        public List<Employee> Employees { get; set; }
     }
 }

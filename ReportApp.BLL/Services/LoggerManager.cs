@@ -6,7 +6,7 @@ namespace ReportApp.BLL.Services
 {
     public class LoggerManager : ILoggerManager
     {
-        private static NLog.ILogger logger = LogManager.GetCurrentClassLogger();
+        private static ILogger logger = LogManager.GetCurrentClassLogger();
 
         public LoggerManager()
         {

@@ -22,5 +22,16 @@ namespace ReportApp.DAL.Entities
 
         public string Address { get; set; }
                 
+        public List<Report> Reports { get; set; }
+
+        public Guid OrganizationId { get; set; }
+
+        public Organization Organization { get; set; }
+
+        [ForeignKey(nameof(AppUsers))]
+        public string UserId { get; set; }
+
+        public AppUsers AppUsers { get; set; }
+
     }
 }

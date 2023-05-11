@@ -10,30 +10,25 @@ namespace ReportApp.DAL.Entities
     public class Report
     {        
         public Guid ReportId { get; set; }
-
-        [Required(ErrorMessage = "Location is a required field")]
+        
         public string Location { get; set; }
-
-        [Required(ErrorMessage = "Hazard Description is a required field")]
+        
         public string HazardDescription { get; set; }
 
-        [Required(ErrorMessage = "Resource at risk is a required field")]
         public string ResourceAtRisk { get; set; }
 
         public RiskProbability RiskProbability { get; set; } = RiskProbability.low;
 
         public RiskImpact RiskImpact { get; set; } = RiskImpact.low;
 
-        [Required(ErrorMessage = "Preventive measure is a required field")]
         public string PreventiveMeasure { get; set; }
 
         public HazardRating HazardRating { get; set; } = HazardRating.low;
 
-        public string? AdditionalInfo { get; set; }
-
-        [ForeignKey("AppUsers")]
-        public Guid UserId { get; set; }
+        public string? AdditionalInfo { get; set; }        
         
-        public AppUsers User { get; set; }
+        public Guid EmployeeId { get; set; }
+
+        public Employee Employee { get; set; }
     }
 }
