@@ -33,14 +33,13 @@ namespace Report_App.Api.Extensions
         public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<ReportDbContext>(
-                opts => opts.UseSqlServer(configuration.GetConnectionString("DefaultConn")
-            ));
+                opts => opts.UseSqlServer(configuration.GetConnectionString("DefaultConn")));
         }
 
         public static void ConfigureServices(this IServiceCollection services)
         {
             services.AddTransient<IUnitOfWork, UnitOfWork<ReportDbContext>>();
-            services.AddTransient<IAuthenticationService, AuthenticationService>();            
+            services.AddTransient<IAuthenticationService, AuthenticationService>();
             services.AddTransient<IReportService, ReportService>();
             services.AddTransient<IEmployeeService, EmployeeService>();
             services.AddTransient<IOrganizationService, OrganizationService>();

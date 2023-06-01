@@ -11,8 +11,8 @@ namespace ReportApp.DAL.Configuration
     {
         public void Configure(EntityTypeBuilder<Report> builder)
         {
-            builder.HasData(
-                new Report()
+           /* builder.HasData(
+              *//*  new Report()
                 {
                     ReportId = new Guid("d4d1554e-4a96-4a34-bc71-c1f9b3ceba06"),
                     Location = "Ikeja, Lagos",
@@ -80,8 +80,8 @@ namespace ReportApp.DAL.Configuration
                     AdditionalInfo = "Jo ..",
                     EmployeeId = new Guid("6c8a9db9-93a4-4d7b-8b8f-7e41aa1d52a7")
                 }
-
-            );
+*//*
+            );*/
         }
     }
 }

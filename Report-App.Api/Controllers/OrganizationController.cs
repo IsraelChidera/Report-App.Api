@@ -21,7 +21,7 @@ namespace Report_App.Api.Controllers
 
         [HttpGet]
         [Route("all-organizations")]
-        [Authorize("SuperAdminm, Admin")]
+        [Authorize(Roles = "SuperAdmin, Admin")]
         [SwaggerOperation(
             Summary = "Get all organizations",
             Description = "Get all authenticated organizations with their details."            

@@ -57,7 +57,7 @@ namespace ReportApp.DAL.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OrganizationName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Industry = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -179,16 +179,24 @@ namespace ReportApp.DAL.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AppUsersId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    OrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Employees", x => x.EmployeeId);
                     table.ForeignKey(
-                        name: "FK_Employees_AspNetUsers_AppUsersId",
-                        column: x => x.AppUsersId,
+                        name: "FK_Employees_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Employees_Organizations_OrganizationId",
+                        column: x => x.OrganizationId,
+                        principalTable: "Organizations",
+                        principalColumn: "OrganizationId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -204,40 +212,33 @@ namespace ReportApp.DAL.Migrations
                     PreventiveMeasure = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     HazardRating = table.Column<int>(type: "int", nullable: false),
                     AdditionalInfo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId1 = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Reports", x => x.ReportId);
                     table.ForeignKey(
-                        name: "FK_Reports_AspNetUsers_UserId1",
-                        column: x => x.UserId1,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        name: "FK_Reports_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employees",
+                        principalColumn: "EmployeeId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[,]
-                {
-                    { "6504efdc-d3de-4201-bc57-844a5780bfe6", "24de958c-d646-4bb9-8d14-deee994b4e80", "Employee", "EMPLOYEE" },
-                    { "a6208081-1c3a-4b90-8d91-fb4ef9980849", "dda41085-08bd-4aa0-be0c-f8bd23d2beaf", "Organization", "ORGANIZATION" },
-                    { "ba41b6de-9b12-45ef-9db7-fc6e336e5926", "0a812506-5cd2-494a-b18f-44410a99f902", "Admin", "ADMIN" }
-                });
+                values: new object[] { "1b395505-1ca4-4b60-9869-3c604087d819", "79835305-6922-4286-b8da-d21e87644253", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
-                table: "Reports",
-                columns: new[] { "ReportId", "AdditionalInfo", "HazardDescription", "HazardRating", "Location", "PreventiveMeasure", "ResourceAtRisk", "RiskImpact", "RiskProbability", "UserId", "UserId1" },
-                values: new object[,]
-                {
-                    { new Guid("10bc62a1-e8a6-476f-8fc2-743c1f46b8d8"), "Jo ..", "Baking is ...", 0, "Nsukka, Enugu", "Cakes and cakes materials ...", "Environment", 1, 1, new Guid("6c8a9db9-93a4-4d7b-8b8f-7e41aa1d52a7"), null },
-                    { new Guid("5f5ca5c5-3b5e-40a3-9a9e-9fa9b7d04d51"), "Jo ..", "Fashion world is ...", 0, "Agbelekale, Laos", "Remains of clothes ...", "Environment", 1, 1, new Guid("d0b8c61b-7720-49f1-95c8-42e2b98d67e9"), null },
-                    { new Guid("8c90bb06-13e5-4d8f-a14f-5461b9d2703a"), "Jo ..", "Environment is ...", 0, "Enugu, Enugu", "Eradixcated the use of pumps", "Environment", 1, 1, new Guid("9a6a288c-df87-476d-8c13-15e008c84d71"), null },
-                    { new Guid("a99b6593-2497-4baf-8568-15aa1c2f2e22"), "Jo ..", "Environment is ...", 0, "Enugu, Enugu", "Eradixcated the use of pumps", "Environment", 1, 1, new Guid("a8b6c9d0-22e5-45f1-a3c5-6e5b46d201c6"), null },
-                    { new Guid("d4d1554e-4a96-4a34-bc71-c1f9b3ceba06"), "Jo ..", "Environment is ...", 0, "Ikeja, Lagos", "To ... ...", "Environment", 1, 1, new Guid("19f907bf-4633-4b75-8f53-35ce78eb97f2"), null }
-                });
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "3bacb522-e15d-4c84-8457-500cda79088d", "fc24155f-b54f-438d-b08d-f3a9b7bd475b", "Employee", "EMPLOYEE" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "c7c2a9cd-d13b-4bf5-9263-d3506f54a817", "621e3d93-0991-45e1-81ca-9ff041b4856c", "Organization", "ORGANIZATION" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -279,14 +280,19 @@ namespace ReportApp.DAL.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Employees_AppUsersId",
+                name: "IX_Employees_OrganizationId",
                 table: "Employees",
-                column: "AppUsersId");
+                column: "OrganizationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reports_UserId1",
+                name: "IX_Employees_UserId",
+                table: "Employees",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reports_EmployeeId",
                 table: "Reports",
-                column: "UserId1");
+                column: "EmployeeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -307,19 +313,19 @@ namespace ReportApp.DAL.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Employees");
-
-            migrationBuilder.DropTable(
-                name: "Organizations");
-
-            migrationBuilder.DropTable(
                 name: "Reports");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "Employees");
+
+            migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Organizations");
         }
     }
 }

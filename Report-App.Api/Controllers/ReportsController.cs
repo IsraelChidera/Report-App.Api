@@ -45,7 +45,7 @@ namespace Report_App.Api.Controllers
                 
         [HttpGet]
         [Route("all-employees-reports")]
-        [Authorize(Roles = "Organization")]
+        [Authorize(Roles = "Organization, Admin, SuperAdmin")]
         [SwaggerOperation(
             Summary = "Get all reports by all amployees",
             Description = "Get all employees' reports with their specified details."           
