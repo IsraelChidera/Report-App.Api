@@ -47,7 +47,7 @@ namespace Report_App.Api.Controllers
         [Route("all-employees-reports")]
         [Authorize(Roles = "Organization, Admin, SuperAdmin")]
         [SwaggerOperation(
-            Summary = "Get all reports by all amployees",
+            Summary = "Get all reports by all employees in an organization",
             Description = "Get all employees' reports with their specified details."           
         )]
         [SwaggerResponse(200, "A list of all employee reports", typeof(IEnumerable<ReportResponseDto>))]

@@ -1,18 +1,15 @@
-﻿using ReportApp.BLL.Entities;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using static ReportApp.DAL.Enum.HazardRatingEnum;
+﻿using static ReportApp.DAL.Enum.HazardRatingEnum;
 using static ReportApp.DAL.Enum.RiskImpactEnum;
 using static ReportApp.DAL.Enum.RiskProbabilityEnum;
 
 namespace ReportApp.DAL.Entities
 {
     public class Report
-    {        
+    {
         public Guid ReportId { get; set; }
-        
+
         public string Location { get; set; }
-        
+
         public string HazardDescription { get; set; }
 
         public string ResourceAtRisk { get; set; }
@@ -25,8 +22,8 @@ namespace ReportApp.DAL.Entities
 
         public HazardRating HazardRating { get; set; } = HazardRating.low;
 
-        public string? AdditionalInfo { get; set; }        
-        
+        public string? AdditionalInfo { get; set; }
+
         public Guid EmployeeId { get; set; }
 
         public Employee Employee { get; set; }

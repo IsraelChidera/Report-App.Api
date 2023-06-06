@@ -1,11 +1,4 @@
-﻿using ReportApp.BLL.Entities;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ReportApp.DAL.Entities
 {
@@ -13,25 +6,20 @@ namespace ReportApp.DAL.Entities
     {
         [Column("EmployeeId")]
         public Guid Id { get; set; }
-    
+
         public string FullName { get; set; }
-              
-        public string Email { get; set; }    
-        
+
+        public string Email { get; set; }
+
         public string PhoneNumber { get; set; }
 
         public string Address { get; set; }
-                
+
         public List<Report> Reports { get; set; }
 
         public Guid OrganizationId { get; set; }
 
         public Organization Organization { get; set; }
-
-        [ForeignKey(nameof(AppUsers))]
-        public string UserId { get; set; }
-
-        public AppUsers AppUsers { get; set; }
 
     }
 }

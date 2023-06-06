@@ -51,22 +51,22 @@ namespace ReportApp.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "3bacb522-e15d-4c84-8457-500cda79088d",
-                            ConcurrencyStamp = "fc24155f-b54f-438d-b08d-f3a9b7bd475b",
+                            Id = "942c04c5-ad73-45a9-8be8-0559f99f478a",
+                            ConcurrencyStamp = "05d9c76d-9743-431b-832a-3cbe93a8eeb8",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         },
                         new
                         {
-                            Id = "c7c2a9cd-d13b-4bf5-9263-d3506f54a817",
-                            ConcurrencyStamp = "621e3d93-0991-45e1-81ca-9ff041b4856c",
+                            Id = "03cd9f30-7859-45c6-818d-b7b66fe86668",
+                            ConcurrencyStamp = "f8ff8610-28a6-4270-9b15-7c18ec6d121d",
                             Name = "Organization",
                             NormalizedName = "ORGANIZATION"
                         },
                         new
                         {
-                            Id = "1b395505-1ca4-4b60-9869-3c604087d819",
-                            ConcurrencyStamp = "79835305-6922-4286-b8da-d21e87644253",
+                            Id = "701653f1-c576-4610-bcb1-b3cd40ccca4c",
+                            ConcurrencyStamp = "9960f87c-614b-41ae-8b83-eb8e650bdde9",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -273,15 +273,9 @@ namespace ReportApp.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("OrganizationId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Employees");
                 });
@@ -415,14 +409,6 @@ namespace ReportApp.DAL.Migrations
                         .HasForeignKey("OrganizationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("ReportApp.BLL.Entities.AppUsers", "AppUsers")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AppUsers");
 
                     b.Navigation("Organization");
                 });

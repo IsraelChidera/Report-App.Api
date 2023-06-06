@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using ReportApp.BLL.Dtos.Request;
 using ReportApp.BLL.Dtos.Response;
 using ReportApp.BLL.Entities;
@@ -16,6 +17,8 @@ namespace ReportApp.BLL.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<Report> _reportRepo;
+        private readonly IRepository<Employee> _employeeRepo;
+        private readonly IRepository<Organization> _organizationRepo;
         private readonly UserManager<AppUsers> _userManager;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -26,8 +29,10 @@ namespace ReportApp.BLL.Services
             _httpContextAccessor = httpContextAccessor;
             _unitOfWork = unitOfWork;
             _reportRepo = unitOfWork.GetRepository<Report>();
+            _employeeRepo = unitOfWork.GetRepository<Employee>();
+            _organizationRepo = unitOfWork.GetRepository<Organization>();
             _userManager = userManager;
-            _mapper = mapper;            
+            _mapper = mapper;
         }
 
         public async Task<(string, ReportResponseDto)> AddReportAsync(ReportRequestDto modelRequest)
@@ -46,7 +51,7 @@ namespace ReportApp.BLL.Services
             newReport.EmployeeId = Guid.Parse(userExists.Id);
             var createdReport = await _reportRepo.AddAsync(newReport);
 
-           
+
             var toReturn = _mapper.Map<ReportResponseDto>(createdReport);
 
             if (createdReport == null)
@@ -61,14 +66,14 @@ namespace ReportApp.BLL.Services
         public async Task<string> DeleteReportAsync(Guid reportId)
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            AppUsers user = await _userManager.FindByIdAsync( userId );
+            AppUsers user = await _userManager.FindByIdAsync(userId);
 
-            if(user is null)
+            if (user is null)
             {
-                throw new UserNotFoundException( Guid.Parse(userId) );
+                throw new UserNotFoundException(Guid.Parse(userId));
             }
 
-            Report report = await _reportRepo.GetSingleByAsync(r=>r.ReportId == reportId);
+            Report report = await _reportRepo.GetSingleByAsync(r => r.ReportId == reportId);
             if (report is null)
             {
                 throw new ReportNotFoundException(reportId);
@@ -80,26 +85,39 @@ namespace ReportApp.BLL.Services
 
         public async Task<IEnumerable<ReportResponseDto>> GetAllReportsAsync()
         {
-            var reports = await _reportRepo.GetAllAsync();
+            var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name);
+            AppUsers user = await _userManager.FindByNameAsync(userId);
 
-            if (!reports.Any())
+            if (user is null)
+            {
+                throw new UserNotFoundException(Guid.Parse(userId));
+            }
+
+            var organization =  _organizationRepo.GetQueryable(o => o.OrganizationName == userId)
+                .Include(e=>e.Employees)
+                .ThenInclude(r=>r.Reports);
+
+            //var reports = await _reportRepo.GetAllAsync();
+            var reports = organization.SelectMany(e => e.Employees).SelectMany(e => e.Reports).ToList();
+
+            /*if (!reports.Any())
             {
                 throw new InvalidOperationException("No reports found");
-            }
+            }*/
 
             var toReturn = _mapper.Map<List<ReportResponseDto>>(reports);
             return toReturn;
-        }       
+        }
 
-        public async Task<IEnumerable<ReportResponseDto>>  GetUserReportsAsync()
+        public async Task<IEnumerable<ReportResponseDto>> GetUserReportsAsync()
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             AppUsers user = await _userManager.FindByIdAsync(userId);
 
-            if(user == null)
+            if (user == null)
             {
-                throw new UserNotFoundException( Guid.Parse(userId) );
+                throw new UserNotFoundException(Guid.Parse(userId));
             }
 
             var userReports = _reportRepo.GetQueryable(r => r.EmployeeId.ToString() == user.Id.ToString()).OrderBy(i => i.ReportId);
@@ -109,7 +127,7 @@ namespace ReportApp.BLL.Services
                 throw new Exception($"User with {userId} does not have any report");
             }
 
-            var toReturn = _mapper.Map< IEnumerable<ReportResponseDto> >(userReports);
+            var toReturn = _mapper.Map<IEnumerable<ReportResponseDto>>(userReports);
 
             return toReturn;
         }
@@ -121,7 +139,7 @@ namespace ReportApp.BLL.Services
 
             if (user == null)
             {
-                throw new UserNotFoundException( Guid.Parse(userId) );
+                throw new UserNotFoundException(Guid.Parse(userId));
             }
 
             var userReport = await _reportRepo.GetSingleByAsync(r => r.ReportId == modelRequest.Id);
@@ -130,27 +148,27 @@ namespace ReportApp.BLL.Services
             {
                 throw new ReportNotFoundException(modelRequest.Id);
             }
-            
-            _mapper.Map(modelRequest, userReport);            
+
+            _mapper.Map(modelRequest, userReport);
             Report reportUpdated = await _reportRepo.UpdateAsync(userReport);
             var result = _mapper.Map<ReportResponseForUpdateDto>(reportUpdated);
 
-            if(reportUpdated == null)
+            if (reportUpdated == null)
             {
                 return ("Failed attempt to update report card", result);
             }
 
             return ("Report updated successfully", result);
         }
-    
+
         public async Task<ReportResponseDto> GetReportAsync(Guid reportId)
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var user = _userManager.FindByIdAsync(userId);
-            if(user == null)
+            if (user == null)
             {
-                throw new UserNotFoundException( Guid.Parse(userId) );
+                throw new UserNotFoundException(Guid.Parse(userId));
             }
 
             var report = await _reportRepo.GetSingleByAsync(x => x.ReportId == reportId);

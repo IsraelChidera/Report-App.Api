@@ -7,6 +7,7 @@ using ReportApp.BLL.Dtos.Request;
 using ReportApp.BLL.Entities;
 using ReportApp.BLL.ServicesContract;
 using ReportApp.DAL.Entities;
+using ReportApp.DAL.Entities.Exceptions;
 using ReportApp.DAL.Repository;
 using ReportApp.Infrastructure.Dtos;
 using System.IdentityModel.Tokens.Jwt;
@@ -58,20 +59,24 @@ namespace ReportApp.BLL.Services
             if (organization.Succeeded)
             {
                 await _userManager.AddToRoleAsync(organizationResult, "Organization");
-
             }
 
             return organization;
-
 
         }
 
         public async Task<IdentityResult> RegisterEmployee(EmployeeForRegistrationDto employeeRequest)
         {
-            var organization = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name);
-            if (organization == null)
+            var organizationExists = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name);
+            if (organizationExists == null)
             {
                 throw new Exception("Organization is not authenticated");
+            }
+
+            var org = await _userManager.FindByNameAsync(organizationExists);
+            if(org == null)
+            {
+                throw new OrganizationNotFound(organizationExists);
             }
 
             var userExists = await _userManager.FindByEmailAsync(employeeRequest.Email);
@@ -86,18 +91,26 @@ namespace ReportApp.BLL.Services
                 Email = employeeRequest.Email,
                 PasswordHash = employeeRequest.Password,
                 UserName = employeeRequest.UserName,
-                OrganizationName = organization,
+                OrganizationName = organizationExists,
             };
 
             var newEmployee = await _userManager.CreateAsync(employeeResult, employeeRequest.Password);
 
+            var organization = await _organizationRepo.GetSingleByAsync(x => x.OrganizationName == org.OrganizationName);
+
+            if(organization == null)
+            {
+                throw new Exception("organization not found");
+            }
+
             var mappedEmployee = _mapper.Map<Employee>(employeeRequest);
+            mappedEmployee.OrganizationId = organization.Id;
             await _employeeRepo.AddAsync(mappedEmployee);
+            
 
             if (newEmployee.Succeeded)
             {
                 await _userManager.AddToRoleAsync(employeeResult, "Employee");
-
             }
 
             return newEmployee;

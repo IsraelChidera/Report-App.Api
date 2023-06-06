@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ReportApp.DAL.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class RestructuringEntities : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -179,18 +179,11 @@ namespace ReportApp.DAL.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    OrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Employees", x => x.EmployeeId);
-                    table.ForeignKey(
-                        name: "FK_Employees_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Employees_Organizations_OrganizationId",
                         column: x => x.OrganizationId,
@@ -228,17 +221,17 @@ namespace ReportApp.DAL.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "1b395505-1ca4-4b60-9869-3c604087d819", "79835305-6922-4286-b8da-d21e87644253", "Admin", "ADMIN" });
+                values: new object[] { "03cd9f30-7859-45c6-818d-b7b66fe86668", "f8ff8610-28a6-4270-9b15-7c18ec6d121d", "Organization", "ORGANIZATION" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "3bacb522-e15d-4c84-8457-500cda79088d", "fc24155f-b54f-438d-b08d-f3a9b7bd475b", "Employee", "EMPLOYEE" });
+                values: new object[] { "701653f1-c576-4610-bcb1-b3cd40ccca4c", "9960f87c-614b-41ae-8b83-eb8e650bdde9", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "c7c2a9cd-d13b-4bf5-9263-d3506f54a817", "621e3d93-0991-45e1-81ca-9ff041b4856c", "Organization", "ORGANIZATION" });
+                values: new object[] { "942c04c5-ad73-45a9-8be8-0559f99f478a", "05d9c76d-9743-431b-832a-3cbe93a8eeb8", "Employee", "EMPLOYEE" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -285,11 +278,6 @@ namespace ReportApp.DAL.Migrations
                 column: "OrganizationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Employees_UserId",
-                table: "Employees",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Reports_EmployeeId",
                 table: "Reports",
                 column: "EmployeeId");
@@ -319,10 +307,10 @@ namespace ReportApp.DAL.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Employees");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Employees");
 
             migrationBuilder.DropTable(
                 name: "Organizations");

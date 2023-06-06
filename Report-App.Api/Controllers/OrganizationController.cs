@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ReportApp.BLL.Dtos.Request;
 using ReportApp.BLL.ServicesContract;
 using ReportApp.DAL.Entities;
 using Swashbuckle.AspNetCore.Annotations;
@@ -15,16 +13,16 @@ namespace Report_App.Api.Controllers
         private readonly IOrganizationService _organizationService;
         public OrganizationController(IOrganizationService organizationService)
         {
-            _organizationService= organizationService;
+            _organizationService = organizationService;
         }
-       
+
 
         [HttpGet]
         [Route("all-organizations")]
         [Authorize(Roles = "SuperAdmin, Admin")]
         [SwaggerOperation(
             Summary = "Get all organizations",
-            Description = "Get all authenticated organizations with their details."            
+            Description = "Get all authenticated organizations with their details."
         )]
         [SwaggerResponse(StatusCodes.Status200OK, "Returns all organizations", typeof(IEnumerable<Organization>))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, "Unauthorized")]
